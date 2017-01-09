@@ -6,16 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
-
-import io.realm.RealmList;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Grade;
-import me.thenightmancodeth.classi.models.data.GradeType;
 import me.thenightmancodeth.classi.views.custom.CircleView;
 import me.thenightmancodeth.classi.models.data.Class;
 
@@ -28,16 +25,14 @@ public class ClassRecycleAdapter extends RecyclerView.Adapter<ClassRecycleAdapte
     private Context ctx;
 
     public static class ClassViewHolder extends RecyclerView.ViewHolder {
-        public CircleView grade;
-        public TextView title;
-        public TextView timeDays;
-        public TextView buildingProfessor;
+        @BindView(R.id.grade) CircleView grade;
+        @BindView(R.id.title) TextView title;
+        @BindView(R.id.date_time) TextView timeDays;
+        @BindView(R.id.location_prof) TextView buildingProfessor;
+        @BindView(R.id.class_item_root) LinearLayout root;
         public ClassViewHolder(View listItemView) {
             super(listItemView);
-            grade = (CircleView)listItemView.findViewById(R.id.grade);
-            title = (TextView)listItemView.findViewById(R.id.title);
-            timeDays = (TextView)listItemView.findViewById(R.id.date_time);
-            buildingProfessor = (TextView)listItemView.findViewById(R.id.location_prof);
+            ButterKnife.bind(this, listItemView);
         }
     }
 
@@ -55,6 +50,11 @@ public class ClassRecycleAdapter extends RecyclerView.Adapter<ClassRecycleAdapte
 
     @Override
     public void onBindViewHolder(ClassViewHolder holder, int position) {
+        if (position == 0) {
+            holder.root.setPadding(0, 14, 0, 0);
+        } else if (position == classes.size() - 1) {
+            holder.root.setPadding(0, 0, 0, 14);
+        }
         Class thisOne = classes.get(position);
         int grade = (int)average(thisOne.getGrades());
         holder.grade.setText(String.valueOf(grade));
