@@ -1,11 +1,11 @@
 package me.thenightmancodeth.classi.views.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -50,7 +50,7 @@ public class ClassDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.new_class_dialog, null);
+        @SuppressLint("InflateParams") View dialogView = inflater.inflate(R.layout.new_class_dialog, null);
         ButterKnife.bind(this, dialogView);
 
         builder.setView(dialogView);
@@ -82,10 +82,11 @@ public class ClassDialog extends DialogFragment {
                 newClass.setGrades(new RealmList<Grade>());
                 newClass.setName(nameString);
                 newClass.setProfessor(profString);
+                newClass.setTime(timeString);
 
                 //Commit to realm db
                 realm.beginTransaction();
-                final Class managedClass = realm.copyToRealm(newClass);
+                realm.copyToRealm(newClass);
                 realm.commitTransaction();
 
                 ((MainActivity)getActivity()).refreshClasses();
