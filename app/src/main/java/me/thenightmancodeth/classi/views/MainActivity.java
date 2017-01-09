@@ -1,5 +1,6 @@
 package me.thenightmancodeth.classi.views;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,8 +23,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import io.realm.RealmList;
 import me.thenightmancodeth.classi.R;
+import me.thenightmancodeth.classi.models.Api;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
@@ -41,12 +44,19 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.class_recycler) RecyclerView classesRecycler;
 
+    Api api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        Realm.init(getApplicationContext());
+        Realm realm = Realm.getDefaultInstance();
+
+        api = new Api(realm);
 
         initUI();
     }
@@ -135,8 +145,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClassDialog dialog = new ClassDialog();
-                dialog.show(getFragmentManager(), "classDialog");
+                DialogFragment classDialogFrag = ClassDialog.newInstance();
+                classDialogFrag.show(getFragmentManager(), "classdialog");
             }
         });
 
@@ -149,11 +159,17 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         classesRecycler.setLayoutManager(layoutManager);
 
-        //Fake data
-        List<Class> classes = new ArrayList<>();
-        makeFakeData(classes);
+        refreshClasses();
+    }
 
-        ClassRecycleAdapter adapter = new ClassRecycleAdapter(classes, getApplicationContext());
+    public void refreshClasses() {
+        ClassRecycleAdapter adapter = new ClassRecycleAdapter(api.getClassesFromRealm(), getApplicationContext());
         classesRecycler.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshClasses();
     }
 }

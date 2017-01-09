@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingStart="14dp"
-    android:paddingEnd="14dp"
+    android:paddingStart="@dimen/class_dialog_margin"
+    android:paddingEnd="@dimen/class_dialog_margin"
     android:layout_height="match_parent">
 
     <!-- Class name -->
@@ -34,24 +34,26 @@
         <TextView
             android:text="@string/dialog_time"
             android:textSize="18sp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/new_class_from_time_hour"
             android:maxLength="2"
+            android:layout_marginStart="14dp"
+            android:hint="@string/dialog_time_hint"
             android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/new_class_from_time_colon"
             android:text="@string/dialog_colon"
-            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/new_class_from_time_min"
             android:maxLength="2"
+            android:hint="@string/dialog_time_hint"
             android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -60,7 +62,6 @@
             android:layout_height="5dp"/>
         <TextView
             android:text="@string/dialog_dash"
-            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <View
@@ -69,18 +70,19 @@
         <EditText
             android:id="@+id/new_class_to_time_hour"
             android:maxLength="2"
+            android:hint="@string/dialog_time_hint"
             android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/new_class_to_time_colon"
             android:text="@string/dialog_colon"
-            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/new_class_to_time_min"
             android:maxLength="2"
+            android:hint="@string/dialog_time_hint"
             android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -89,57 +91,105 @@
             android:layout_height="5dp" />
     </LinearLayout>
     <!-- Days checkboxes -->
+    <!-- TODO: Make each box a linear layout with label below -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <CheckBox
             android:id="@+id/check_sun"
-            android:text="@string/sunday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/sunday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/check_mon"
-            android:text="@string/monday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/monday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/check_tue"
-            android:text="@string/tuesday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/tuesday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/check_wed"
-            android:text="@string/wednesday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/wednesday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/check_thu"
-            android:text="@string/thursday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/thursday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/check_fri"
-            android:text="@string/friday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/friday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <CheckBox
             android:id="@+id/check_sat"
-            android:text="@string/saturday"
-            android:layout_marginEnd="@dimen/button_padding"
             android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:text="@string/saturday"
+            android:textSize="0sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:paddingStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/sunday"
+            android:layout_marginStart="@dimen/text_padding"
+            android:layout_width="@dimen/text_width"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/monday"
+            android:layout_marginStart="@dimen/text_padding"
+            android:layout_width="@dimen/text_width"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/tuesday"
+            android:layout_marginStart="0dp"
+            android:layout_width="@dimen/text_width"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/wednesday"
+            android:layout_marginStart="@dimen/text_padding"
+            android:layout_width="@dimen/text_width"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/thursday"
+            android:layout_marginStart="0dp"
+            android:layout_width="@dimen/text_width"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/friday"
+            android:layout_marginStart="@dimen/text_padding"
+            android:layout_width="@dimen/text_width"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/saturday"
+            android:layout_marginStart="@dimen/text_padding"
+            android:layout_width="@dimen/text_width"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

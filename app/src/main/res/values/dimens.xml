@@ -6,7 +6,10 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- class dialog -->
+    <dimen name="class_dialog_margin">16dp</dimen>
+
     <!-- Day picker -->
-    <dimen name="button_padding">7dp</dimen>
-    <dimen name="button_width">40dp</dimen>
+    <dimen name="text_padding">0dp</dimen>
+    <dimen name="text_width">40dp</dimen>
 </resources>

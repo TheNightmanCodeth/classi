@@ -1,7 +1,14 @@
 package me.thenightmancodeth.classi.models;
 
+import android.content.Context;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
+import io.realm.RealmResults;
 import me.thenightmancodeth.classi.controllers.ApiInterface;
+import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.User;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -17,8 +24,11 @@ import rx.schedulers.Schedulers;
 
 public class Api {
     private final ApiInterface apiInterface;
+    private Context ctx;
+    private Realm realm;
 
-    public Api() {
+    public Api(Realm r) {
+        this.realm = r;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://thenightmancodeth.me/classi/api/")
                 .client(new OkHttpClient())
@@ -34,5 +44,14 @@ public class Api {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
+    }
+
+    public List<Class> getClassesFromRealm() {
+        RealmResults<Class> classes = realm.where(Class.class).findAll();
+        List<Class> arrayListClasses = new ArrayList<>();
+        for (Class c : classes) {
+            arrayListClasses.add(c);
+        }
+        return arrayListClasses;
     }
 }

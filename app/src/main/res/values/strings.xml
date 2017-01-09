@@ -5,17 +5,17 @@
     <string name="action_settings">Settings</string>
 
     <!-- Add class dialog -->
-    <string name="dialog_class_title">Add class</string>
+    <string name="dialog_class_title">New Class</string>
     <string name="dialog_submit">Add</string>
     <string name="dialog_name_hint">Class name</string>
     <string name="dialog_prof_hint">Professor</string>
     <string name="dialog_building_hint">Building</string>
     <string name="dialog_days">Days</string>
     <string name="dialog_time">Time: </string>
+    <string name="dialog_time_hint">00</string>
     <string name="dialog_colon">:</string>
-    <string name="dialog_dash">-</string>
-
-    <!-- Day picker -->
+    <string name="dialog_dash">to</string>
+    <!-- days picker -->
     <string name="sunday">S</string>
     <string name="monday">M</string>
     <string name="tuesday">T</string>
@@ -23,5 +23,6 @@
     <string name="thursday">R</string>
     <string name="friday">F</string>
     <string name="saturday">A</string>
+
 
 </resources>

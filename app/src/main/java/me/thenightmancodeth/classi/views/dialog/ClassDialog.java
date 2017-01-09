@@ -1,13 +1,13 @@
 package me.thenightmancodeth.classi.views.dialog;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -22,6 +22,7 @@ import io.realm.RealmList;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
+import me.thenightmancodeth.classi.views.MainActivity;
 
 /**
  * Created by thenightman on 1/9/17.
@@ -34,20 +35,23 @@ public class ClassDialog extends DialogFragment {
     @BindView(R.id.new_class_from_time_hour) EditText fromHour;
     @BindView(R.id.new_class_from_time_min)  EditText fromMin;
     @BindView(R.id.new_class_to_time_hour)   EditText toHour;
-    @BindView(R.id.new_class_from_time_min)  EditText toMin;
-    @BindView(R.id.new_class_days) Button daysButton;
+    @BindView(R.id.new_class_to_time_min)  EditText toMin;
     @BindViews({R.id.check_sun, R.id.check_mon, R.id.check_tue, R.id.check_wed, R.id.check_thu, R.id.check_fri, R.id.check_sat})
     List<CheckBox> checkBoxes;
 
     @BindString(R.string.dialog_class_title) String title;
     @BindString(R.string.dialog_submit) String submit;
 
+    public static ClassDialog newInstance() {
+        return new ClassDialog();
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.new_class_dialog, null);
-        ButterKnife.bind(getActivity(), dialogView);
+        ButterKnife.bind(this, dialogView);
 
         builder.setView(dialogView);
         builder.setTitle(title);
@@ -55,7 +59,7 @@ public class ClassDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Init realm
-                Realm.init(getContext());
+                Realm.init(getActivity().getApplicationContext());
                 Realm realm = Realm.getDefaultInstance();
 
                 //Get data from input
@@ -83,6 +87,8 @@ public class ClassDialog extends DialogFragment {
                 realm.beginTransaction();
                 final Class managedClass = realm.copyToRealm(newClass);
                 realm.commitTransaction();
+
+                ((MainActivity)getActivity()).refreshClasses();
             }
         });
 
