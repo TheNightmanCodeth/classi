@@ -20,23 +20,23 @@ import me.thenightmancodeth.classi.models.data.Class;
  * Created by thenightman on 1/8/17.
  **/
 
-public class ClassRecycleAdapter extends RecyclerView.Adapter<ClassRecycleAdapter.ClassViewHolder> {
+class ClassRecycleAdapter extends RecyclerView.Adapter<ClassRecycleAdapter.ClassViewHolder> {
     private List<Class> classes;
     private Context ctx;
 
-    public static class ClassViewHolder extends RecyclerView.ViewHolder {
+    static class ClassViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.grade) CircleView grade;
         @BindView(R.id.title) TextView title;
         @BindView(R.id.date_time) TextView timeDays;
         @BindView(R.id.location_prof) TextView buildingProfessor;
         @BindView(R.id.class_item_root) LinearLayout root;
-        public ClassViewHolder(View listItemView) {
+        ClassViewHolder(View listItemView) {
             super(listItemView);
             ButterKnife.bind(this, listItemView);
         }
     }
 
-    public ClassRecycleAdapter(List<Class> classes, Context ctx) {
+    ClassRecycleAdapter(List<Class> classes, Context ctx) {
         this.classes = classes;
         this.ctx = ctx;
     }
@@ -60,8 +60,8 @@ public class ClassRecycleAdapter extends RecyclerView.Adapter<ClassRecycleAdapte
         holder.grade.setText(String.valueOf(grade));
         holder.grade.setBackgroundColor(genColor(grade));
         holder.title.setText(thisOne.getName());
-        String timeDayString = thisOne.getTime() +" - " +thisOne.getDays();
-        String buildingProfessorString = thisOne.getBuilding() +" - " +thisOne.getProfessor();
+        String timeDayString = thisOne.getTime() +" • " +thisOne.getDays();
+        String buildingProfessorString = thisOne.getBuilding() +" • " +thisOne.getProfessor();
         holder.timeDays.setText(timeDayString);
         holder.buildingProfessor.setText(buildingProfessorString);
     }
