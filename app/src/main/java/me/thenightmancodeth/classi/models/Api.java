@@ -1,5 +1,6 @@
 package me.thenightmancodeth.classi.models;
 
+import io.realm.Realm;
 import me.thenightmancodeth.classi.controllers.ApiInterface;
 import me.thenightmancodeth.classi.models.data.User;
 import okhttp3.OkHttpClient;

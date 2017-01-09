@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +27,7 @@ import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
-import me.thenightmancodeth.classi.views.custom.CircleView;
+import me.thenightmancodeth.classi.views.dialog.ClassDialog;
 
 /**
  * Created by thenightman on 1/8/17.
@@ -136,7 +135,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ClassDialog dialog = new ClassDialog();
+                dialog.show(getFragmentManager(), "classDialog");
             }
         });
 
