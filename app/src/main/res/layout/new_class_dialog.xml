@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
     android:layout_height="match_parent">
+
+    <!-- Class name -->
+    <EditText
+        android:id="@+id/new_class_name"
+        android:hint="@string/dialog_name_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- Professor name -->
+    <EditText
+        android:id="@+id/new_class_prof"
+        android:hint="@string/dialog_prof_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- Building -->
+    <EditText
+        android:id="@+id/new_class_building"
+        android:hint="@string/dialog_building_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- Class time and days button -->
+    <LinearLayout
+        android:id="@+id/new_class_time_days_root"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/dialog_time"
+            android:textSize="18sp"
+            android:layout_marginEnd="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/new_class_from_time_hour"
+            android:maxLength="2"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/new_class_from_time_colon"
+            android:text="@string/dialog_colon"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/new_class_from_time_min"
+            android:maxLength="2"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/dialog_dash"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/new_class_to_time"
+            android:maxLength="2"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/new_class_to_time_colon"
+            android:text="@string/dialog_colon"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/new_class_to_time_min"
+            android:maxLength="2"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/new_class_days"
+            android:text="@string/dialog_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

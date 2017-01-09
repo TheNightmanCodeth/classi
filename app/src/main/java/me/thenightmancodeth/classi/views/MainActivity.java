@@ -49,30 +49,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        classesRecycler.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        classesRecycler.setLayoutManager(layoutManager);
-
-        //Fake data
-        List<Class> classes = new ArrayList<>();
-        makeFakeData(classes);
-
-        ClassRecycleAdapter adapter = new ClassRecycleAdapter(classes, getApplicationContext());
-        classesRecycler.setAdapter(adapter);
+        initUI();
     }
 
     @Override
@@ -153,5 +130,30 @@ public class MainActivity extends AppCompatActivity
             cl.setTime("8:00"+i);
             classes.add(cl);
         }
+    }
+
+    private void initUI() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        classesRecycler.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        classesRecycler.setLayoutManager(layoutManager);
+
+        //Fake data
+        List<Class> classes = new ArrayList<>();
+        makeFakeData(classes);
+
+        ClassRecycleAdapter adapter = new ClassRecycleAdapter(classes, getApplicationContext());
+        classesRecycler.setAdapter(adapter);
     }
 }

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/class_item_root"
     android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="7dp"
+    android:layout_marginStart="14dp"
     android:gravity="center_vertical">
 
     <!-- grade -->
@@ -9,7 +13,7 @@
         android:id="@+id/grade"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="10dp"
+        android:textColor="@android:color/white"
         android:layout_marginEnd="15dp"
         android:gravity="center"
         android:layout_gravity="center_vertical" />
@@ -17,8 +21,6 @@
     <!-- text  -->
     <LinearLayout
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
