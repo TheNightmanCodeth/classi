@@ -48,6 +48,7 @@ public class Api {
 
     public List<Class> getClassesFromRealm() {
         RealmResults<Class> classes = realm.where(Class.class).findAll();
+        classes = classes.sort("timeFromH");
         List<Class> arrayListClasses = new ArrayList<>();
         for (Class c : classes) {
             arrayListClasses.add(c);

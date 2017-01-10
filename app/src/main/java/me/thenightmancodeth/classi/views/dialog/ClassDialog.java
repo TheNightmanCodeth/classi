@@ -66,8 +66,6 @@ public class ClassDialog extends DialogFragment {
                 String nameString = name.getText().toString();
                 String profString = prof.getText().toString();
                 String builString = building.getText().toString();
-                String timeString = fromHour.getText().toString() +":" +fromMin.getText().toString()
-                        +" - " +toHour.getText().toString() +":" +toMin.getText().toString();
                 String days = "";
                 for (CheckBox c : checkBoxes) {
                     if (c.isChecked()) {
@@ -82,7 +80,10 @@ public class ClassDialog extends DialogFragment {
                 newClass.setGrades(new RealmList<Grade>());
                 newClass.setName(nameString);
                 newClass.setProfessor(profString);
-                newClass.setTime(timeString);
+                newClass.setTimeFromH(Integer.valueOf(fromHour.getText().toString()));
+                newClass.setTimeFromM(Integer.valueOf(fromMin.getText().toString()));
+                newClass.setTimeToH(Integer.valueOf(toHour.getText().toString()));
+                newClass.setTimeToM(Integer.valueOf(toMin.getText().toString()));
 
                 //Commit to realm db
                 realm.beginTransaction();

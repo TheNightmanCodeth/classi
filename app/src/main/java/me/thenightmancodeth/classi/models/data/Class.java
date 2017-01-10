@@ -9,7 +9,10 @@ import io.realm.RealmObject;
 
 public class Class extends RealmObject {
     private String name;
-    private String time;
+    private int timeFromH;
+    private int timeFromM;
+    private int timeToH;
+    private int timeToM;
     private String days;
     private String building;
     private String professor;
@@ -23,12 +26,36 @@ public class Class extends RealmObject {
         this.name = name;
     }
 
-    public String getTime() {
-        return time;
+    public int getTimeFromH() {
+        return timeFromH;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeFromH(int timeFromH) {
+        this.timeFromH = timeFromH;
+    }
+
+    public int getTimeFromM() {
+        return timeFromM;
+    }
+
+    public void setTimeFromM(int timeFromM) {
+        this.timeFromM = timeFromM;
+    }
+
+    public int getTimeToH() {
+        return timeToH;
+    }
+
+    public void setTimeToH(int timeToH) {
+        this.timeToH = timeToH;
+    }
+
+    public int getTimeToM() {
+        return timeToM;
+    }
+
+    public void setTimeToM(int timeToM) {
+        this.timeToM = timeToM;
     }
 
     public String getDays() {
