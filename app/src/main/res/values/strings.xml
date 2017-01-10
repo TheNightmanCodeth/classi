@@ -9,7 +9,7 @@
     <string name="dialog_submit">Add</string>
     <string name="dialog_name_hint">Class name</string>
     <string name="dialog_prof_hint">Professor</string>
-    <string name="dialog_building_hint">Building</string>
+    <string name="dialog_building_hint">Location</string>
     <string name="dialog_days">Days</string>
     <string name="dialog_time">Time: </string>
     <string name="dialog_time_hint">00</string>
@@ -23,6 +23,8 @@
     <string name="thursday">R</string>
     <string name="friday">F</string>
     <string name="saturday">A</string>
+    <string name="today_seperator">Today</string>
+    <string name="week_seperator">This week</string>
 
 
 </resources>

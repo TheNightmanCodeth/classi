@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#689f38</color>
     <color name="colorAccent">#0091ea</color>
     <color name="background_material_light">#ffffff</color>
+    <color name="list_seperator_background">#e0e0e0</color>
     <color name="a">#689f38</color>
     <color name="b">#1976d2</color>
     <color name="c">#ffd600</color>

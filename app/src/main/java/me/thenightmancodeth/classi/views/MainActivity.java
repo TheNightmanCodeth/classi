@@ -119,31 +119,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void makeFakeData(List<Class> classes) {
-        for (int i = 0; i <= 8; i++) {
-            Class cl = new Class();
-            cl.setBuilding("Building" +i);
-            cl.setDays("MWF"+i);
-            RealmList<Grade> grades = new RealmList<>();
-            for (int j = 0; j <=5; j++) {
-                Grade gr = new Grade();
-                gr.setDescription("Desc"+i);
-                gr.setGrade(60+(5*i));
-                GradeType gt = new GradeType();
-                gt.setPercent(100);
-                gt.setType("Game"+i);
-                gr.setType(gt);
-                gr.setName("Name"+i);
-                grades.add(gr);
-            }
-            cl.setGrades(grades);
-            cl.setName("Class"+i);
-            cl.setProfessor("Professor"+i);
-            cl.setTime("8:00"+i);
-            classes.add(cl);
-        }
-    }
-
     private void initUI() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,9 +136,6 @@ public class MainActivity extends AppCompatActivity
         classesRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         classesRecycler.setLayoutManager(layoutManager);
-        DividerItemDecoration did = new DividerItemDecoration(classesRecycler.getContext(),
-                    DividerItemDecoration.VERTICAL);
-        classesRecycler.addItemDecoration(did);
 
         refreshClasses();
     }
