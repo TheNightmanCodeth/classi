@@ -1,10 +1,12 @@
 package me.thenightmancodeth.classi.views;
 
 import android.app.DialogFragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +23,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.class_recycler) RecyclerView classesRecycler;
+
+    @BindDrawable(R.drawable.divider_item) Drawable divider;
 
     Api api;
 
@@ -158,6 +163,9 @@ public class MainActivity extends AppCompatActivity
         classesRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         classesRecycler.setLayoutManager(layoutManager);
+        DividerItemDecoration did = new DividerItemDecoration(classesRecycler.getContext(),
+                    DividerItemDecoration.VERTICAL);
+        classesRecycler.addItemDecoration(did);
 
         refreshClasses();
     }
