@@ -3,9 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:id="@+id/class_item_root"
     android:layout_height="wrap_content"
-    android:layout_marginTop="7dp"
-    android:layout_marginBottom="7dp"
-    android:layout_marginStart="14dp"
+    android:padding="8dp"
     android:gravity="center_vertical">
 
     <!-- grade -->
@@ -25,18 +23,15 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/title"
-            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/location_prof"
-            android:textColor="@android:color/white"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/date_time"
-            android:textColor="@android:color/white"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
