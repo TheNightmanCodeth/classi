@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.class_recycler) RecyclerView classesRecycler;
 
-    @BindDrawable(R.drawable.divider_item) Drawable divider;
-
     Api api;
 
     @Override
