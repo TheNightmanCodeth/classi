@@ -50,11 +50,6 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<ClassRecycleAdapter.Class
 
     @Override
     public void onBindViewHolder(ClassViewHolder holder, int position) {
-        if (position == 0) {
-            holder.root.setPadding(0, 14, 0, 0);
-        } else if (position == classes.size() - 1) {
-            holder.root.setPadding(0, 0, 0, 14);
-        }
         Class thisOne = classes.get(position);
         int grade = (int)average(thisOne.getGrades());
         holder.grade.setText(String.valueOf(grade));
