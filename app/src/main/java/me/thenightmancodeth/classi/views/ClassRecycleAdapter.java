@@ -16,8 +16,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmModel;
-import io.realm.RealmObject;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.views.custom.CircleView;
@@ -30,12 +28,9 @@ import me.thenightmancodeth.classi.models.data.Class;
 class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Class> classes;
     private Context ctx;
-    String TODAY_SEPERATOR_NAME = "THENIGHTMANCOMETHBUTTHEDAYMANISNEIGH";
-    String SEPERATOR_NAME = "OHDAMNYOUJUSTLOSTTHEGAME";
-    String SEPERATOR_TIME = "SEPERATOR";
-    private int SEPERATOR = 0;
-    private int WEEK_SEPERATOR = 1;
-    private int NOT_SEPERATOR = 2;
+    private String TODAY_SEPERATOR_NAME = "THENIGHTMANCOMETHBUTTHEDAYMANISNEIGH";
+    private String SEPERATOR_NAME = "OHDAMNYOUJUSTLOSTTHEGAME";
+    private String SEPERATOR_TIME = "SEPERATOR";
 
     static class ClassViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.grade) CircleView grade;
@@ -94,7 +89,7 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         Class thisOne = classes.get(position);
         switch (holder.getItemViewType()) {
             case 0:
@@ -131,7 +126,7 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 classViewHolder.bg.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        Class toDelete = classes.get(position);
+                        Class toDelete = classes.get(holder.getAdapterPosition());
                         Realm r = Realm.getDefaultInstance();
                         r.beginTransaction();
                         toDelete.deleteFromRealm();

@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.TextView;
 
 import me.thenightmancodeth.classi.R;
 
@@ -15,7 +13,7 @@ import me.thenightmancodeth.classi.R;
  * Created by thenightman on 1/8/17.
  **/
 
-public class CircleView extends TextView {
+public class CircleView extends android.support.v7.widget.AppCompatTextView {
     private int backgroundColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
     private int textColor;
     private Paint circlePaint;

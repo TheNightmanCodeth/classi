@@ -24,7 +24,6 @@ import rx.schedulers.Schedulers;
 
 public class Api {
     private final ApiInterface apiInterface;
-    private Context ctx;
     private Realm realm;
 
     public Api(Realm r) {
