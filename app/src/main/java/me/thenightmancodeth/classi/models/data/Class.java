@@ -11,8 +11,10 @@ public class Class extends RealmObject {
     private String name;
     private int timeFromH;
     private int timeFromM;
+    private String fromAMPM;
     private int timeToH;
     private int timeToM;
+    private String toAMPM;
     private String days;
     private String building;
     private String professor;
@@ -88,5 +90,21 @@ public class Class extends RealmObject {
 
     public void setGrades(RealmList<Grade> grades) {
         this.grades = grades;
+    }
+
+    public String getFromAMPM() {
+        return fromAMPM;
+    }
+
+    public void setFromAMPM(String fromAMPM) {
+        this.fromAMPM = fromAMPM;
+    }
+
+    public String getToAMPM() {
+        return toAMPM;
+    }
+
+    public void setToAMPM(String toAMPM) {
+        this.toAMPM = toAMPM;
     }
 }
