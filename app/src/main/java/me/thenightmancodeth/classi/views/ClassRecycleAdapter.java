@@ -1,9 +1,12 @@
 package me.thenightmancodeth.classi.views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +93,7 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        Class thisOne = classes.get(position);
+        final Class thisOne = classes.get(position);
         switch (holder.getItemViewType()) {
             case 0:
                 SeparatorViewHolder separatorViewHolder = (SeparatorViewHolder)holder;
@@ -123,23 +126,23 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 String buildingProfessorString = thisOne.getBuilding() +" • " +thisOne.getProfessor();
                 classViewHolder.timeDays.setText(timeDayString);
                 classViewHolder.buildingProfessor.setText(buildingProfessorString);
-                classViewHolder.bg.setOnLongClickListener(new View.OnLongClickListener() {
+                classViewHolder.bg.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
-                        Class toDelete = classes.get(holder.getAdapterPosition());
-                        Realm r = Realm.getDefaultInstance();
-                        r.beginTransaction();
-                        toDelete.deleteFromRealm();
-                        r.commitTransaction();
-                        notifyDataSetChanged();
-                        return false;
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ctx, ClassView.class);
+                        Bundle passArgs = new Bundle();
+                        passArgs.putString(MainActivity.CLASS_NAME_EXTRA, thisOne.getName());
+                        intent.putExtras(passArgs);
+                        ctx.startActivity(intent);
                     }
                 });
         }
     }
 
     private int genColor(int grade) {
-        if (grade >= 90) {
+        if (grade == 0) {
+            return ContextCompat.getColor(ctx, R.color.none);
+        } else if (grade >= 90) {
             return ContextCompat.getColor(ctx, R.color.a);
         } else if (grade >= 80) {
             return ContextCompat.getColor(ctx, R.color.b);
@@ -170,15 +173,33 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (prev == null) {
                         prev = c;
                     } else {
-                        int thisHr = c.getTimeFromH() == 12 ? 0 : c.getTimeFromH();
-                        int prevHr = prev.getTimeFromH() == 12 ? 0 : prev.getTimeFromH();
-                        if (thisHr < prevHr) {
+                        int thisHr = c.getTimeFromH();
+                        if (thisHr == 12) {
+                            thisHr = 0;
+                        }
+                        int thisAMPM = amPmIntFrom(c.getFromAMPM());
+                        int prevHr = prev.getTimeFromH();
+                        if (prevHr == 12) {
+                            prevHr = 0;
+                        }
+                        int prevAMPM = amPmIntFrom(prev.getFromAMPM());
+                        if (thisAMPM < prevAMPM) {
+                            Log.e("TAG", "am<pm" +c.getName() +" : " +prev.getName());
                             sortedClasses.add(c);
-                        } else if (thisHr > prevHr) {
+                        } else if (thisAMPM > prevAMPM) {
+                            Log.e("TAG", "am>pm" +c.getName() +" : " +prev.getName());
                             sortedClasses.add(prev);
                             prev = c;
-                        } else if (thisHr == prevHr){
-                            //Compare minutes?
+                        } else if (thisHr < prevHr && thisAMPM <= prevAMPM) {
+                            Log.e("TAG", "this < prev && am < pm" +c.getName() +" : " +prev.getName());
+                            sortedClasses.add(c);
+                        } else if (thisHr > prevHr && thisAMPM >= prevAMPM) {
+                            Log.e("TAG", "this > prev && am > pm" +c.getName() +" : " +prev.getName());
+                            sortedClasses.add(prev);
+                            prev = c;
+                        } else if (thisHr == prevHr && thisAMPM == prevAMPM){
+                            Log.e("TAG", "==" +c.getName() +" : " +prev.getName());
+                            //Compare minutes
                             if (c.getTimeFromM() < prev.getTimeFromM()) {
                                 sortedClasses.add(c);
                             } else if (c.getTimeFromM() > prev.getTimeFromM()) {
@@ -237,6 +258,16 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             size++;
         }
         return sum/size;
+    }
+
+    public static int amPmIntFrom(String ampm) {
+        switch (ampm) {
+            case "AM":
+                return 0;
+            case "PM":
+                return 1;
+        }
+        return 0;
     }
 
     @Override

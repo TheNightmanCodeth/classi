@@ -11,7 +11,7 @@
     android:gravity="center_vertical">
     <LinearLayout
         android:id="@+id/class_item_root"
-        android:padding="16dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!-- grade -->
@@ -20,7 +20,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:textColor="@android:color/white"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:layout_gravity="center_vertical" />
 

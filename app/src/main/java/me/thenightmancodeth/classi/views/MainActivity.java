@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.class_recycler) RecyclerView classesRecycler;
-
+    public static final String CLASS_NAME_EXTRA = "class_to_pass";
     Api api;
 
     @Override
