@@ -100,11 +100,6 @@ public class ClassView extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation spin = new RotateAnimation(0.0f, 360.0f,
-                        fab.getWidth()/2, fab.getHeight()/2);
-                spin.setRepeatCount(5);
-                spin.setDuration(10);
-
                 if (!name.isEnabled()) {
                     fab.setImageResource(R.drawable.ic_check_24dp);
                     fab.setBackgroundTintList(ColorStateList.valueOf(green));
