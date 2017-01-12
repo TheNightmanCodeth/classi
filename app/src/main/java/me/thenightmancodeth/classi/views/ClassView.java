@@ -32,7 +32,6 @@ import me.thenightmancodeth.classi.models.data.Class;
 public class ClassView extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
     @BindColor(R.color.colorPrimary) int green;
     @BindColor(R.color.colorAccent) int blue;
 
