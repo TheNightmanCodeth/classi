@@ -25,7 +25,8 @@
         <activity
             android:name=".views.ClassView"
             android:label="@string/title_activity_class_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".views.MainActivity"/>
     </application>
 
 </manifest>
