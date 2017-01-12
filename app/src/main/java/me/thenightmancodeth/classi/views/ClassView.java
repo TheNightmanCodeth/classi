@@ -1,17 +1,12 @@
 package me.thenightmancodeth.classi.views;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,11 +19,8 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Class;
-import me.thenightmancodeth.classi.models.data.Grade;
 
 public class ClassView extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -84,9 +76,11 @@ public class ClassView extends AppCompatActivity {
             prof.setText(thisClass.getProfessor());
             building.setText(thisClass.getBuilding());
             fromHour.setText(String.valueOf(thisClass.getTimeFromH()));
-            fromMin.setText(String.valueOf(thisClass.getTimeFromM()));
+            fromMin.setText(thisClass.getTimeFromM() == 0 ?
+                    "00" : String.valueOf(thisClass.getTimeFromM()));
             toHour.setText(String.valueOf(thisClass.getTimeToH()));
-            toMin.setText(String.valueOf(thisClass.getTimeToM()));
+            toMin.setText(thisClass.getTimeToM() == 0 ?
+                    "00" : String.valueOf(thisClass.getTimeToM()));
             fromAMPMSpinner.setSelection(ClassRecycleAdapter.amPmIntFrom(thisClass.getFromAMPM()));
             Log.i("int", "" +ClassRecycleAdapter.amPmIntFrom(thisClass.getFromAMPM()));
             toAMPMSpinner.setSelection(ClassRecycleAdapter.amPmIntFrom(thisClass.getToAMPM()));
