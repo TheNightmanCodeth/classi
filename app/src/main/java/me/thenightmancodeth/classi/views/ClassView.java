@@ -1,11 +1,18 @@
 package me.thenightmancodeth.classi.views;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -25,6 +32,7 @@ import me.thenightmancodeth.classi.models.data.Class;
 public class ClassView extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
     @BindColor(R.color.colorPrimary) int green;
     @BindColor(R.color.colorAccent) int blue;
 
@@ -39,7 +47,7 @@ public class ClassView extends AppCompatActivity {
     @BindView(R.id.new_class_to_am_pm)       Spinner toAMPMSpinner;
     @BindViews({R.id.check_sun, R.id.check_mon, R.id.check_tue, R.id.check_wed, R.id.check_thu, R.id.check_fri, R.id.check_sat})
     List<CheckBox> checkBoxes;
-
+    Realm realm;
     String className;
     Class thisClass;
 
@@ -68,7 +76,7 @@ public class ClassView extends AppCompatActivity {
         toAMPMSpinner.setEnabled(false);
 
         Realm.init(getApplicationContext());
-        final Realm realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 
         thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
         if (thisClass != null) {
@@ -140,5 +148,48 @@ public class ClassView extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_class_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_delete_class) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.confirm_delete_dialog_title);
+            builder.setMessage(R.string.confirm_delete_dialog_body);
+            builder.setPositiveButton(R.string.confirm_delete_dialog_positive, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    realm.beginTransaction();
+                    thisClass.deleteFromRealm();
+                    realm.commitTransaction();
+                    startActivity(new Intent(ClassView.this, MainActivity.class));
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                }
+            });
+            builder.setNegativeButton(R.string.confirm_delete_dialog_negative, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
