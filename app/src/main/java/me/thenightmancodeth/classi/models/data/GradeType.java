@@ -4,7 +4,7 @@ import io.realm.RealmObject;
 
 /**
  * Created by thenightman on 1/8/17.
- */
+ **/
 
 public class GradeType extends RealmObject {
     private String type;

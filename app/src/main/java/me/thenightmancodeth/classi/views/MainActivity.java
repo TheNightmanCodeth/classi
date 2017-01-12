@@ -24,7 +24,7 @@ import me.thenightmancodeth.classi.views.dialog.ClassDialog;
 
 /**
  * Created by thenightman on 1/8/17.
- */
+ **/
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

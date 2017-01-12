@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.views.custom.CircleView;
@@ -260,7 +259,7 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return sum/size;
     }
 
-    public static int amPmIntFrom(String ampm) {
+    static int amPmIntFrom(String ampm) {
         switch (ampm) {
             case "AM":
                 return 0;

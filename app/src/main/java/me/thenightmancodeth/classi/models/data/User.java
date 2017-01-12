@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 
 /**
  * Created by thenightman on 1/8/17.
- */
+ **/
 
 public class User extends RealmObject {
     private String name;
