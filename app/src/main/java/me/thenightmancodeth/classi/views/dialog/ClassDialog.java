@@ -1,12 +1,19 @@
 package me.thenightmancodeth.classi.views.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.IntegerRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindString;
@@ -23,6 +31,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmList;
 import me.thenightmancodeth.classi.R;
+import me.thenightmancodeth.classi.controllers.AlarmReceiver;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.views.MainActivity;
@@ -104,10 +113,40 @@ public class ClassDialog extends DialogFragment {
                 realm.copyToRealm(newClass);
                 realm.commitTransaction();
 
+                //Create alarm
+                for (char d : days.toCharArray()) {
+                    ((MainActivity)getActivity()).createWeeklyAlarmForDay(charToDay(d),
+                            newClass.getName(), newClass.getBuilding(),
+                            toAMPMSpinner.getSelectedItem().toString().
+                                    equals("AM") ? Calendar.AM : Calendar.PM,
+                            newClass.getTimeFromH(), newClass.getTimeFromM());
+                }
+
                 ((MainActivity)getActivity()).refreshClasses();
             }
         });
 
         return builder.create();
+    }
+
+    private int charToDay(char d) {
+        switch (d) {
+            case 'S':
+                return Calendar.SUNDAY;
+            case 'M':
+                return Calendar.MONDAY;
+            case 'T':
+                return Calendar.TUESDAY;
+            case 'W':
+                return Calendar.WEDNESDAY;
+            case 'R':
+                return Calendar.THURSDAY;
+            case 'F':
+                return Calendar.FRIDAY;
+            case 'A':
+                return Calendar.SATURDAY;
+            default:
+                return 0;
+        }
     }
 }

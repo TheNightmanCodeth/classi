@@ -27,6 +27,8 @@
             android:label="@string/title_activity_class_view"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".views.MainActivity"/>
+        <receiver android:name="me.thenightmancodeth.classi.controllers.AlarmReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>
