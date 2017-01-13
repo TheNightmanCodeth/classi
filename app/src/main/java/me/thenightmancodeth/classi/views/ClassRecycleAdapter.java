@@ -132,7 +132,7 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         Bundle passArgs = new Bundle();
                         passArgs.putString(MainActivity.CLASS_NAME_EXTRA, thisOne.getName());
                         intent.putExtras(passArgs);
-                        ctx.startActivity(intent);
+                        v.getContext().startActivity(intent);
                     }
                 });
         }
