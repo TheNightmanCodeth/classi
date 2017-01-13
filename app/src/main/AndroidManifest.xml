@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.thenightmancodeth.classi">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -27,8 +29,16 @@
             android:label="@string/title_activity_class_view"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".views.MainActivity"/>
-        <receiver android:name="me.thenightmancodeth.classi.controllers.AlarmReceiver"
+
+        <receiver android:name="me.thenightmancodeth.classi.controllers.receivers.AlarmReceiver"
             android:enabled="true" />
+
+        <receiver android:name="me.thenightmancodeth.classi.controllers.receivers.AlarmBootReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="me.thenightmancodeth.classi.controllers.services.AlarmBootService" android:enabled="true"/>
     </application>
 
 </manifest>

@@ -1,19 +1,12 @@
 package me.thenightmancodeth.classi.views.dialog;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.IntegerRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,7 +24,6 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmList;
 import me.thenightmancodeth.classi.R;
-import me.thenightmancodeth.classi.controllers.AlarmReceiver;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.views.MainActivity;
@@ -115,7 +107,8 @@ public class ClassDialog extends DialogFragment {
 
                 //Create alarm
                 for (char d : days.toCharArray()) {
-                    ((MainActivity)getActivity()).createWeeklyAlarmForDay(charToDay(d),
+                    ((MainActivity)getActivity()).createWeeklyAlarmForDay(getActivity(),
+                            charToDay(d),
                             newClass.getName(), newClass.getBuilding(),
                             toAMPMSpinner.getSelectedItem().toString().
                                     equals("AM") ? Calendar.AM : Calendar.PM,
@@ -129,7 +122,7 @@ public class ClassDialog extends DialogFragment {
         return builder.create();
     }
 
-    private int charToDay(char d) {
+    public static int charToDay(char d) {
         switch (d) {
             case 'S':
                 return Calendar.SUNDAY;

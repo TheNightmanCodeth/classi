@@ -1,4 +1,4 @@
-package me.thenightmancodeth.classi.controllers;
+package me.thenightmancodeth.classi.controllers.receivers;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

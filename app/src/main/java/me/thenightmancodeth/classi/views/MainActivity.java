@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import me.thenightmancodeth.classi.R;
-import me.thenightmancodeth.classi.controllers.AlarmReceiver;
+import me.thenightmancodeth.classi.controllers.receivers.AlarmReceiver;
 import me.thenightmancodeth.classi.models.Api;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.views.dialog.ClassDialog;
@@ -222,8 +222,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void createWeeklyAlarmForDay(int d, String name, String building, int AMPM, int hr, int min) {
-        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+    public void createWeeklyAlarmForDay(Context c, int d, String name, String building, int AMPM, int hr, int min) {
+        AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();
         //Number of days to the day of alarm
         //One hour before class starts
