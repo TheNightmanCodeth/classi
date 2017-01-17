@@ -27,7 +27,7 @@ import me.thenightmancodeth.classi.models.data.Class;
  * Created by thenightman on 1/8/17.
  **/
 
-class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Class> classes;
     private Context ctx;
     private String TODAY_SEPERATOR_NAME = "THENIGHTMANCOMETHBUTTHEDAYMANISNEIGH";
@@ -259,7 +259,7 @@ class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return sum/size;
     }
 
-    static int amPmIntFrom(String ampm) {
+    public static int amPmIntFrom(String ampm) {
         switch (ampm) {
             case "AM":
                 return 0;
