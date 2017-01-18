@@ -78,7 +78,7 @@ public class GradesListFragment extends Fragment {
 
     public List<Grade> getGradesFromRealm() {
         List<Grade> arrayListGrades = new ArrayList<>();
-        for (Grade g : thisClas.getGrades()) {
+        for (Grade g : thisClass.getGrades()) {
                 arrayListGrades.add(g);
         }
         return arrayListGrades;
