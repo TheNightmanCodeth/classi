@@ -9,7 +9,10 @@ import io.realm.RealmObject;
 public class Grade extends RealmObject {
     private String name;
     private String description;
+    private String dueDate; //dueDate should be in format: MM/dd/yyyy
+    private String dueTime; //dueTime should be in format: hh:mm aa (12:00 PM)
     private GradeType type;
+    public boolean finished = false;
     private double grade;
 
     public String getName() {
@@ -42,5 +45,25 @@ public class Grade extends RealmObject {
 
     public void setGrade(double grade) {
         this.grade = grade;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getDueTime() {
+        return dueTime;
+    }
+
+    public void setDueTime(String dueTime) {
+        this.dueTime = dueTime;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

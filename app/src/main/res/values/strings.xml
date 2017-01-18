@@ -34,6 +34,10 @@
     <string name="today_seperator">Today</string>
     <string name="week_seperator">This week</string>
 
+    <!-- Grade list -->
+    <string name="twentyfour_hour_seperator">24 Hours</string>
+    <string name="finished_seperator">Complete</string>
+
     <!-- class view -->
     <string name="title_activity_class_view">Class</string>
     <string name="action_delete_class">Delete</string>

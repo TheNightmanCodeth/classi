@@ -49,6 +49,10 @@ public class ClassView extends AppCompatActivity {
         setContentView(R.layout.activity_class_view);
         ButterKnife.bind(this);
 
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+
+
         Bundle args = getIntent().getExtras();
         className = args.getString(MainActivity.CLASS_NAME_EXTRA);
         toolbar.setTitle(className);
@@ -63,6 +67,8 @@ public class ClassView extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.grade_list_fragment);
                 if (currentFragment instanceof GradesListFragment) {
+                    fab.setImageResource(R.drawable.ic_check_24dp);
+                    fab.setBackgroundTintList(ColorStateList.valueOf(green));
                     //Switch to edit fragment
                     EditClassFragment ecf = new EditClassFragment();
                     Bundle fragArgs = new Bundle();
@@ -72,8 +78,10 @@ public class ClassView extends AppCompatActivity {
                     ft.replace(R.id.grade_list_fragment, ecf);
                     ft.commit();
                 } else if (currentFragment instanceof EditClassFragment) {
-                    EditClassFragment f = (EditClassFragment)getSupportFragmentManager().findFragmentById(R.id.grade_list_fragment);
-                    f.pushChangesToRealm();
+                    fab.setImageResource(R.drawable.ic_edit_24dp);
+                    fab.setBackgroundTintList(ColorStateList.valueOf(blue));
+                    submitChanges();
+                    //Switch to grades fragment
                     GradesListFragment ecf = new GradesListFragment();
                     Bundle fragArgs = new Bundle();
                     fragArgs.putString("class_name", className);
@@ -85,7 +93,7 @@ public class ClassView extends AppCompatActivity {
             }
         });
 
-        EditClassFragment ecf = new EditClassFragment();
+        GradesListFragment ecf = new GradesListFragment();
         Bundle fragArgs = new Bundle();
         fragArgs.putString("class_name", className);
         ecf.setArguments(fragArgs);
@@ -103,6 +111,19 @@ public class ClassView extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (getSupportFragmentManager().findFragmentById(R.id.grade_list_fragment) instanceof EditClassFragment) {
+            submitChanges();
+        }
+    }
+
+    private void submitChanges() {
+        EditClassFragment f = (EditClassFragment) getSupportFragmentManager().findFragmentById(R.id.grade_list_fragment);
+        f.pushChangesToRealm();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -117,6 +138,7 @@ public class ClassView extends AppCompatActivity {
             builder.setPositiveButton(R.string.confirm_delete_dialog_positive, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
                     realm.beginTransaction();
                     thisClass.deleteFromRealm();
                     realm.commitTransaction();

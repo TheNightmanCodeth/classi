@@ -1,5 +1,7 @@
 package me.thenightmancodeth.classi.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import me.thenightmancodeth.classi.controllers.ApiInterface;
 import me.thenightmancodeth.classi.models.data.Class;
+import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.User;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

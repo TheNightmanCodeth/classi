@@ -22,10 +22,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         String location = intent.getExtras().getString("location");
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_icon_circle)
+                .setSmallIcon(R.drawable.ic_noti_icon)
                 .setContentTitle(title)
                 .setContentText(location);
-        int notifyID = 001;
+        int notifyID = 1;
         NotificationManager nm = (NotificationManager)context.
                 getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(notifyID, builder.build());
