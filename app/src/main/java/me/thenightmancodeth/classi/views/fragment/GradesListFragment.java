@@ -45,7 +45,7 @@ public class GradesListFragment extends Fragment {
         Realm.init(getContext());
         realm = Realm.getDefaultInstance();
         
-        className = getArguments().getString("class");
+        className = getArguments().getString("class_name");
         thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
         return view;
     }
