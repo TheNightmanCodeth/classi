@@ -33,7 +33,9 @@ public class GradesListFragment extends Fragment {
     @BindView(R.id.grades_list_rv) RecyclerView gradesRecycler;
 
     Realm realm;
-
+    String className;
+    Class thisClass;
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,7 +44,9 @@ public class GradesListFragment extends Fragment {
 
         Realm.init(getContext());
         realm = Realm.getDefaultInstance();
-
+        
+        className = getArguments().getString("class");
+        thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
         return view;
     }
 
@@ -73,13 +77,9 @@ public class GradesListFragment extends Fragment {
     }
 
     public List<Grade> getGradesFromRealm() {
-        RealmResults<Class> classes = realm.where(Class.class).findAll();
         List<Grade> arrayListGrades = new ArrayList<>();
-        for (Class c : classes) {
-            for (Grade g : c.getGrades()) {
-                Log.i("Adding grade:", g.getName());
+        for (Grade g : thisClas.getGrades()) {
                 arrayListGrades.add(g);
-            }
         }
         return arrayListGrades;
     }
