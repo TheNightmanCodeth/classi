@@ -59,8 +59,9 @@ public class AlarmBootService extends IntentService {
         AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();
         //Number of days to the day of alarm
+        int days = d + (7 - cal.get(Calendar.DAY_OF_WEEK));
         //One hour before class starts
-        cal.set(Calendar.DAY_OF_WEEK, d);
+        cal.add(Calendar.DATE, days);
         cal.set(Calendar.HOUR, hr - 1);
         cal.set(Calendar.MINUTE, min - 1);
         cal.set(Calendar.AM_PM, AMPM);

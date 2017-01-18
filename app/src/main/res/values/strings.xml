@@ -37,6 +37,17 @@
     <!-- Grade list -->
     <string name="twentyfour_hour_seperator">24 Hours</string>
     <string name="finished_seperator">Complete</string>
+    <!-- Grade dialog -->
+    <string name="grade_dialog_title">New Assignment</string>
+    <string name="grade_dialog_submit">Add</string>
+    <string name="dialog_slash">/</string>
+    <string name="grade_dialog_date">Due date: </string>
+    <string name="grade_dialog_time">Due time: </string>
+    <string name="grade_dialog_time_h">hh</string>
+    <string name="grade_dialog_time_m">mm</string>
+    <string name="grade_dialog_type">Type: </string>
+    <string name="grade_dialog_name">Title</string>
+    <string name="grade_dialog_desc">Description (optional)</string>
 
     <!-- class view -->
     <string name="title_activity_class_view">Class</string>
@@ -44,5 +55,6 @@
     <string name="confirm_delete_dialog_title">Delete</string>
     <string name="confirm_delete_dialog_body">Are you sure you want to delete this class?</string>
     <string name="confirm_delete_dialog_positive">Delete</string>
+    <string name="action_edit_class">Edit class</string>
     <string name="confirm_delete_dialog_negative">Cancel</string>
 </resources>

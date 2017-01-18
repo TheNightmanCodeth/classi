@@ -19,6 +19,7 @@ public class Class extends RealmObject {
     private String building;
     private String professor;
     private RealmList<Grade> grades;
+    private RealmList<GradeType> types;
 
     public String getName() {
         return name;
@@ -106,5 +107,13 @@ public class Class extends RealmObject {
 
     public void setToAMPM(String toAMPM) {
         this.toAMPM = toAMPM;
+    }
+
+    public RealmList<GradeType> getTypes() {
+        return types;
+    }
+
+    public void setTypes(RealmList<GradeType> types) {
+        this.types = types;
     }
 }

@@ -52,9 +52,7 @@ public class GradesListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         gradesRecycler.setLayoutManager(layoutManager);
 
-        GradeRecycleAdapter adapter = new GradeRecycleAdapter(getFakeGrades(),
-                getContext());
-        gradesRecycler.setAdapter(adapter);
+        refreshGrades();
     }
 
     private List<Grade> getFakeGrades() {
@@ -84,5 +82,11 @@ public class GradesListFragment extends Fragment {
             }
         }
         return arrayListGrades;
+    }
+
+    public void refreshGrades() {
+        GradeRecycleAdapter adapter = new GradeRecycleAdapter(getGradesFromRealm(),
+                getContext());
+        gradesRecycler.setAdapter(adapter);
     }
 }

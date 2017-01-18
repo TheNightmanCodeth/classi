@@ -28,11 +28,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmList;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.controllers.receivers.AlarmReceiver;
 import me.thenightmancodeth.classi.models.Api;
 import me.thenightmancodeth.classi.models.data.Class;
+import me.thenightmancodeth.classi.models.data.GradeType;
 import me.thenightmancodeth.classi.views.dialog.ClassDialog;
+
+import static me.thenightmancodeth.classi.views.dialog.ClassDialog.charToDay;
 
 /**
  * Created by thenightman on 1/8/17.
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         realm = Realm.getDefaultInstance();
 
         api = new Api(realm);
-
+        makeAlarms();
         initUI();
     }
 
@@ -143,7 +147,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void refreshClasses() {
-        ClassRecycleAdapter adapter = new ClassRecycleAdapter(api.getClassesFromRealm(), getApplicationContext());
+        ClassRecycleAdapter adapter = new ClassRecycleAdapter(api.getClassesFromRealm(),
+                getApplicationContext());
         classesRecycler.setAdapter(adapter);
     }
 
@@ -151,6 +156,19 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         refreshClasses();
+        makeAlarms();
+    }
+
+    private void makeAlarms() {
+        for (Class c : api.getClassesFromRealm()) {
+            for (char d : c.getDays().toCharArray()) {
+                createWeeklyAlarmForDay(getApplicationContext(),
+                        charToDay(d),
+                        c.getName(), c.getBuilding(),
+                        c.getFromAMPM().equals("AM") ? Calendar.AM : Calendar.PM,
+                        c.getTimeFromH(), c.getTimeFromM());
+            }
+        }
     }
 
     protected void makeClasses() {
@@ -166,6 +184,14 @@ public class MainActivity extends AppCompatActivity
         CSE.setTimeToM(50);
         CSE.setToAMPM("PM");
         CSE.setDays("MW");
+        RealmList<GradeType> types = new RealmList<>();
+        for (int i = 1; i < 11; i++) {
+            GradeType type = new GradeType();
+            type.setType("Type " +i);
+            type.setPercent(10 * i);
+            types.add(type);
+        }
+        CSE.setTypes(types);
         classes.add(CSE);
         Class ECON = new Class();
         ECON.setName("Contemporary Economic Issues");
@@ -178,6 +204,14 @@ public class MainActivity extends AppCompatActivity
         ECON.setTimeToM(45);
         ECON.setToAMPM("PM");
         ECON.setDays("MW");
+        RealmList<GradeType> types2 = new RealmList<>();
+        for (int i = 1; i < 11; i++) {
+            GradeType type = new GradeType();
+            type.setType("Type " +i);
+            type.setPercent(10 * i);
+            types2.add(type);
+        }
+        ECON.setTypes(types);
         classes.add(ECON);
         Class HIST = new Class();
         HIST.setName("Modern World History");
@@ -190,6 +224,14 @@ public class MainActivity extends AppCompatActivity
         HIST.setTimeToM(15);
         HIST.setToAMPM("PM");
         HIST.setDays("MW");
+        RealmList<GradeType> types3 = new RealmList<>();
+        for (int i = 1; i < 11; i++) {
+            GradeType type = new GradeType();
+            type.setType("Type " +i);
+            type.setPercent(10 * i);
+            types3.add(type);
+        }
+        HIST.setTypes(types);
         classes.add(HIST);
         Class SWE = new Class();
         SWE.setName("Intro to Software Engineering");
@@ -202,6 +244,14 @@ public class MainActivity extends AppCompatActivity
         SWE.setTimeToM(45);
         SWE.setToAMPM("PM");
         SWE.setDays("TR");
+        RealmList<GradeType> types4 = new RealmList<>();
+        for (int i = 1; i < 11; i++) {
+            GradeType type = new GradeType();
+            type.setType("Type " +i);
+            type.setPercent(10 * i);
+            types4.add(type);
+        }
+        SWE.setTypes(types);
         classes.add(SWE);
         Class ENGL = new Class();
         ENGL.setName("Early World Literature");
@@ -214,6 +264,14 @@ public class MainActivity extends AppCompatActivity
         ENGL.setTimeToM(15);
         ENGL.setToAMPM("PM");
         ENGL.setDays("TR");
+        RealmList<GradeType> types5 = new RealmList<>();
+        for (int i = 1; i < 11; i++) {
+            GradeType type = new GradeType();
+            type.setType("Type " +i);
+            type.setPercent(10 * i);
+            types5.add(type);
+        }
+        ENGL.setTypes(types);
         classes.add(ENGL);
         for (Class c : classes) {
             realm.beginTransaction();
@@ -225,11 +283,12 @@ public class MainActivity extends AppCompatActivity
     public void createWeeklyAlarmForDay(Context c, int d, String name, String building, int AMPM, int hr, int min) {
         AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();
-        //Number of days to the day of alarm
         //One hour before class starts
         cal.set(Calendar.DAY_OF_WEEK, d);
         cal.set(Calendar.HOUR, hr - 1);
         cal.set(Calendar.MINUTE, min - 1);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         cal.set(Calendar.AM_PM, AMPM);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         alarmIntent.putExtra("title", name);
@@ -238,7 +297,7 @@ public class MainActivity extends AppCompatActivity
                 PendingIntent.FLAG_ONE_SHOT);
         //alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
         //      AlarmManager.INTERVAL_DAY * 7, pi);
-        alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi);
-        Log.i("Created alarm", "Day: " +d +", Time: " +cal.get(Calendar.HOUR) +":" +cal.get(Calendar.MINUTE) +" " +cal.get(Calendar.AM_PM));
+        alarm.set(AlarmManager.RTC_WAKEUP, 1000, pi);
+        Log.i("Created alarm", name +" Day: " +cal.get(Calendar.DAY_OF_WEEK) +", Time: " +cal.get(Calendar.HOUR) +":" +cal.get(Calendar.MINUTE) +" " +cal.get(Calendar.AM_PM));
     }
 }
