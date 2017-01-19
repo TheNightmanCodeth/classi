@@ -183,10 +183,15 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         seperator24.setType(type);
         seperator24.setDescription(SEPERATOR_DESC);
         seperator24.setName("");
-        sortedGrades.add(seperator24);
+        boolean sep24 = true;
         //Add all grades due in 24 hours or less
         for (Grade g : grades) {
-            if (getPeriodTo(g.getDueDate(), g.getDueTime()).getDays() < 1 && getPeriodTo(g.getDueDate(), g.getDueTime()).getHours() < 25) {
+            if (getPeriodTo(g.getDueDate(), g.getDueTime()).getDays() < 1
+                    && getPeriodTo(g.getDueDate(), g.getDueTime()).getHours() < 25) {
+                if (sep24) {
+                    sortedGrades.add(seperator24);
+                    sep24 = false;
+                }
                 sortedGrades.add(g);
             }
         }
@@ -199,10 +204,14 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         gt.setPercent(0);
         gt.setType("0");
         weekSeperator.setType(gt);
-        sortedGrades.add(weekSeperator);
+        boolean sepW = true;
         //Add all grades due in over 24 hours
         for (Grade g : grades) {
             if (getPeriodTo(g.getDueDate(), g.getDueTime()).getDays() > 0) {
+                if (sepW) {
+                    sortedGrades.add(weekSeperator);
+                    sepW = false;
+                }
                 sortedGrades.add(g);
             }
         }
@@ -212,10 +221,14 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         finSeperator.setDescription(SEPERATOR_DESC);
         finSeperator.setName(SEPERATOR_NAME);
         finSeperator.setType(type);
-        sortedGrades.add(finSeperator);
+        boolean sepF = true;
         //Add all finished grades
         for (Grade g : grades) {
             if (g.finished) {
+                if (sepF) {
+                    sortedGrades.add(finSeperator);
+                    sepF = false;
+                }
                 sortedGrades.add(g);
             }
         }
