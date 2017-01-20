@@ -32,7 +32,7 @@
 
     <!-- class list -->
     <string name="today_seperator">Today</string>
-    <string name="week_seperator">This week</string>
+    <string name="week_seperator">Upcoming</string>
 
     <!-- Grade list -->
     <string name="twentyfour_hour_seperator">24 Hours</string>

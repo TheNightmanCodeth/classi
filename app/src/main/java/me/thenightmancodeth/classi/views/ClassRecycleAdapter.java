@@ -164,62 +164,32 @@ public class ClassRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Class seperator = new Class();
         seperator.setName(TODAY_SEPERATOR_NAME);
         seperator.setDays(SEPERATOR_TIME);
-        sortedClasses.add(seperator);
-        Class prev = null;
+        boolean sep = true;
+
         for (Class c : classes) {
             if (today != null) {
                 if (c.getDays().contains(today)) {
-                    if (prev == null) {
-                        prev = c;
-                    } else {
-                        int thisHr = c.getTimeFromH();
-                        if (thisHr == 12) {
-                            thisHr = 0;
-                        }
-                        int thisAMPM = amPmIntFrom(c.getFromAMPM());
-                        int prevHr = prev.getTimeFromH();
-                        if (prevHr == 12) {
-                            prevHr = 0;
-                        }
-                        int prevAMPM = amPmIntFrom(prev.getFromAMPM());
-                        if (thisAMPM < prevAMPM) {
-                            Log.e("TAG", "am<pm" +c.getName() +" : " +prev.getName());
-                            sortedClasses.add(c);
-                        } else if (thisAMPM > prevAMPM) {
-                            Log.e("TAG", "am>pm" +c.getName() +" : " +prev.getName());
-                            sortedClasses.add(prev);
-                            prev = c;
-                        } else if (thisHr < prevHr && thisAMPM <= prevAMPM) {
-                            Log.e("TAG", "this < prev && am < pm" +c.getName() +" : " +prev.getName());
-                            sortedClasses.add(c);
-                        } else if (thisHr > prevHr && thisAMPM >= prevAMPM) {
-                            Log.e("TAG", "this > prev && am > pm" +c.getName() +" : " +prev.getName());
-                            sortedClasses.add(prev);
-                            prev = c;
-                        } else if (thisHr == prevHr && thisAMPM == prevAMPM){
-                            Log.e("TAG", "==" +c.getName() +" : " +prev.getName());
-                            //Compare minutes
-                            if (c.getTimeFromM() < prev.getTimeFromM()) {
-                                sortedClasses.add(c);
-                            } else if (c.getTimeFromM() > prev.getTimeFromM()) {
-                                sortedClasses.add(prev);
-                                prev = c;
-                            }
-                        }
+                    if (sep) {
+                        sortedClasses.add(seperator);
+                        sep = false;
                     }
+                    sortedClasses.add(c);
                 }
             }
         }
-        if (prev != null) {
-            sortedClasses.add(prev);
-        }
+
         Class weekSeperator = new Class();
         weekSeperator.setName(SEPERATOR_NAME);
         weekSeperator.setDays(SEPERATOR_TIME);
-        sortedClasses.add(weekSeperator);
+        boolean wSep = true;
+
         for (Class c : classes) {
             if (today != null) {
                 if (!c.getDays().contains(today)) {
+                    if (wSep) {
+                        sortedClasses.add(weekSeperator);
+                        wSep = false;
+                    }
                     sortedClasses.add(c);
                 }
             }
