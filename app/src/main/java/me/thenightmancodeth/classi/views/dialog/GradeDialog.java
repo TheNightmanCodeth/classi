@@ -46,6 +46,7 @@ public class GradeDialog extends DialogFragment {
     @BindView(R.id.dialog_grade_time_h) EditText dueHourET;
     @BindView(R.id.dialog_grade_time_m) EditText dueMinuteET;
     @BindView(R.id.dialog_grade_types) Spinner typeSpinner;
+    @BindView(R.id.dialog_grade_ampm) Spinner ampmSpinner;
 
     @BindString(R.string.grade_dialog_title) String title;
     @BindString(R.string.grade_dialog_submit) String submit;
@@ -65,6 +66,11 @@ public class GradeDialog extends DialogFragment {
         @SuppressLint("InflateParams")
         View dialogView = inflater.inflate(R.layout.grade_dialog, null);
         ButterKnife.bind(this, dialogView);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.ampm, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ampmSpinner.setAdapter(spinnerAdapter);
 
         Realm.init(getContext());
         realm = Realm.getDefaultInstance();
@@ -106,7 +112,8 @@ public class GradeDialog extends DialogFragment {
                         +dueDayET.getText().toString() +'/'
                         +dueYearET.getText().toString();
                 String dueTimeString = dueHourET.getText().toString() +':'
-                        +dueMinuteET.getText().toString() +" PM";
+                        +dueMinuteET.getText().toString() +" "
+                        +ampmSpinner.getSelectedItem().toString();
                 GradeType type = gradeTypes.get(typeSpinner.getSelectedItemPosition());
 
                 //Create new grade from input
