@@ -21,6 +21,7 @@ import me.thenightmancodeth.classi.controllers.receivers.AlarmBootReceiver;
 
 import me.thenightmancodeth.classi.controllers.receivers.AlarmReceiver;
 import me.thenightmancodeth.classi.models.data.Class;
+import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.views.MainActivity;
 import me.thenightmancodeth.classi.views.dialog.ClassDialog;
 
@@ -107,6 +108,32 @@ public class AlarmBootService extends IntentService {
             Log.i("Alarm", name + " is set for: "
                     + untilAlarm.getDays() + " days, " + untilAlarm.getHours() + " hours, "
                     + untilAlarm.getMinutes() +
+                    " minutes from now. Or, " + (end.getMillis() - start.getMillis())
+                    + " milliseconds");
+        }
+    }
+
+    public void createAlarmForGrade(Grade g, Context c) {
+        //Calculate milliseconds until alarm should sound
+        Period untilAlarm = getPeriodTo(g.getDueDate(), g.getDueTime());
+        Period untilAlarmMinusOne = untilAlarm.minusHours(1);
+        DateTime start = new DateTime();  //NOW
+        DateTime end = start.plus(untilAlarmMinusOne);
+        long millis = Calendar.getInstance().getTimeInMillis()
+                + (end.getMillis() - start.getMillis());
+
+        if (millis > Calendar.getInstance().getTimeInMillis()) {
+            AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+            Intent alarmIntent = new Intent(c, AlarmReceiver.class);
+            alarmIntent.putExtra("title", g.getName());
+            alarmIntent.putExtra("due_in", untilAlarmMinusOne.getHours());
+            alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
+            PendingIntent pi = PendingIntent.getBroadcast(c, 0, alarmIntent,
+                    PendingIntent.FLAG_ONE_SHOT);
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, millis, AlarmManager.INTERVAL_DAY * 7, pi);
+            Log.i("Alarm", g.getName() + " is set for: "
+                    + untilAlarmMinusOne.getDays() + " days, " + untilAlarmMinusOne.getHours() + " hours, "
+                    + untilAlarmMinusOne.getMinutes() +
                     " minutes from now. Or, " + (end.getMillis() - start.getMillis())
                     + " milliseconds");
         }
