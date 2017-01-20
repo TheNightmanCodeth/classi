@@ -126,7 +126,9 @@ public class AlarmBootService extends IntentService {
             AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
             Intent alarmIntent = new Intent(c, AlarmReceiver.class);
             alarmIntent.putExtra("title", g.getName());
-            alarmIntent.putExtra("due_in", untilAlarmMinusOne.getHours());
+            String h = untilAlarmMinusOne.getHours() > 1 ? " hours" : " hour";
+            alarmIntent.putExtra("due_in", "Due in "
+                    +String.valueOf(untilAlarmMinusOne.getHours()) +h);
             alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
             PendingIntent pi = PendingIntent.getBroadcast(c, 0, alarmIntent,
                     PendingIntent.FLAG_ONE_SHOT);

@@ -19,7 +19,13 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String title = intent.getExtras().getString("title");
-        String location = intent.getExtras().getString("location");
+        String location = "";
+        if (intent.getExtras().getString("location") != null) {
+            location = intent.getExtras().getString("location");
+        } else if (intent.getExtras().getString("due_date") != null) {
+            location = intent.getExtras().getString("due_in");
+        }
+
         Log.i("Notification", "alarm received from: " +title);
 
         NotificationCompat.Builder builder =
@@ -30,6 +36,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setVibrate(new long[] {1000, 1000})
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         int notifyID = 1;
+
         NotificationManager nm = (NotificationManager)context.
                 getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(notifyID, builder.build());
