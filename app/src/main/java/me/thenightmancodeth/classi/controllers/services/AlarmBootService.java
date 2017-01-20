@@ -78,7 +78,12 @@ public class AlarmBootService extends IntentService {
         String alarmDateString = alarmMon +"/" +alarmDay +"/" +alarmYea;
 
         //Make string from timt. Again ensure single digit numbers get 0 appended
-        String alarmHr = hr < 10 ? "0" +(hr-1) : String.valueOf(hr-1);
+        String alarmHr = "12";
+        if (hr > 1) {
+            alarmHr = hr < 10 ? "0" + (hr - 1) : String.valueOf(hr - 1);
+        } else if (hr == 1) {
+            alarmHr = "12";
+        }
         String alarmMn = min < 10 ? "0" +min : String.valueOf(min);
         String alarmAP = AMPM == 0 ? "AM" : "PM";
         String alarmTimeString = alarmHr +":" +alarmMn +" " +alarmAP;
