@@ -1,11 +1,13 @@
 package me.thenightmancodeth.classi.models;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import me.thenightmancodeth.classi.controllers.ApiInterface;
 import me.thenightmancodeth.classi.models.data.Class;
@@ -54,5 +56,16 @@ public class Api {
             arrayListClasses.add(c);
         }
         return arrayListClasses;
+    }
+
+    public List<Grade> getGradesFromRealm() {
+        RealmResults<Class> classes = realm.where(Class.class).findAll();
+        List<Grade> grades = new ArrayList<>();
+        for (Class c : classes) {
+            for (Grade g : c.getGrades()) {
+                grades.add(g);
+            }
+        }
+        return grades;
     }
 }

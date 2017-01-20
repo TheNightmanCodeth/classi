@@ -1,16 +1,12 @@
 package me.thenightmancodeth.classi.views;
 
-import android.app.AlarmManager;
 import android.app.DialogFragment;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +29,7 @@ import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.controllers.services.AlarmBootService;
 import me.thenightmancodeth.classi.models.Api;
 import me.thenightmancodeth.classi.models.data.Class;
+import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
 import me.thenightmancodeth.classi.views.dialog.ClassDialog;
 
@@ -169,6 +166,9 @@ public class MainActivity extends AppCompatActivity
                         c.getTimeFromH(), c.getTimeFromM());
             }
         }
+        for (Grade g : api.getGradesFromRealm()) {
+            createAlarmForGrade(getApplicationContext(), g);
+        }
     }
 
     protected void makeClasses() {
@@ -283,5 +283,10 @@ public class MainActivity extends AppCompatActivity
     public void createWeeklyAlarmForDay(Context c, int d, String name, String building, int AMPM, int hr, int min) {
         AlarmBootService abs = new AlarmBootService();
         abs.createWeeklyAlarmForDay(c, d, name, building, AMPM, hr, min);
+    }
+
+    void createAlarmForGrade(Context c, Grade g) {
+        AlarmBootService abs = new AlarmBootService();
+        abs.createAlarmForGrade(g, c);
     }
 }
