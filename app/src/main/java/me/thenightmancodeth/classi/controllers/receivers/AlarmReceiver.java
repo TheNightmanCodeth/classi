@@ -17,9 +17,10 @@ import me.thenightmancodeth.classi.R;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("Notification", "alarm received");
         String title = intent.getExtras().getString("title");
         String location = intent.getExtras().getString("location");
+        Log.i("Notification", "alarm received from: " +title);
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_noti_icon)

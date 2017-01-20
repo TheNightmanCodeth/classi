@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmList;
 import me.thenightmancodeth.classi.R;
-import me.thenightmancodeth.classi.controllers.receivers.AlarmReceiver;
+import me.thenightmancodeth.classi.controllers.services.AlarmBootService;
 import me.thenightmancodeth.classi.models.Api;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.GradeType;
@@ -281,23 +281,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void createWeeklyAlarmForDay(Context c, int d, String name, String building, int AMPM, int hr, int min) {
-        AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-        Calendar cal = Calendar.getInstance();
-        //One hour before class starts
-        cal.set(Calendar.DAY_OF_WEEK, d);
-        cal.set(Calendar.HOUR, hr - 1);
-        cal.set(Calendar.MINUTE, min - 1);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.set(Calendar.AM_PM, AMPM);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        alarmIntent.putExtra("title", name);
-        alarmIntent.putExtra("location", building);
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, alarmIntent,
-                PendingIntent.FLAG_ONE_SHOT);
-        //alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-        //      AlarmManager.INTERVAL_DAY * 7, pi);
-        alarm.set(AlarmManager.RTC_WAKEUP, 1000, pi);
-        Log.i("Created alarm", name +" Day: " +cal.get(Calendar.DAY_OF_WEEK) +", Time: " +cal.get(Calendar.HOUR) +":" +cal.get(Calendar.MINUTE) +" " +cal.get(Calendar.AM_PM));
+        AlarmBootService abs = new AlarmBootService();
+        abs.createWeeklyAlarmForDay(c, d, name, building, AMPM, hr, min);
     }
 }

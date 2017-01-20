@@ -16,13 +16,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import me.thenightmancodeth.classi.R;
-import me.thenightmancodeth.classi.models.Api;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
-import me.thenightmancodeth.classi.views.ClassRecycleAdapter;
 import me.thenightmancodeth.classi.views.GradeRecycleAdapter;
 
 /**
