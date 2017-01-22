@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmList;
+import me.thenightmancodeth.classi.BuildConfig;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.controllers.services.AlarmBootService;
 import me.thenightmancodeth.classi.models.Api;
@@ -90,8 +91,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            makeClasses();
-            refreshClasses();
+            if (BuildConfig.DEBUG) {
+                makeClasses();
+                refreshClasses();
+            }
             return true;
         }
 
