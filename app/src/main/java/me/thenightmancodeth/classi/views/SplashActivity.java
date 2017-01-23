@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
         setContentView(R.layout.splash);
-
+        //Show splash for 1 second
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -27,6 +27,6 @@ public class SplashActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 SplashActivity.this.finish();
             }
-        }, 2000);
+        }, 1000);
     }
 }

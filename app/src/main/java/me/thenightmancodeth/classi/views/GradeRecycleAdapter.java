@@ -8,25 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.thenightmancodeth.classi.R;
-import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
 import me.thenightmancodeth.classi.views.custom.CircleView;
@@ -122,7 +115,7 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case SEPERATOR_WEEK:
                 //Due this week
                 SeparatorViewHolder separatorViewHolder1 = (SeparatorViewHolder)holder;
-                separatorViewHolder1.title.setText(R.string.week_seperator);
+                separatorViewHolder1.title.setText(R.string.week_separator);
                 break;
             case SEPERATOR_FIN:
                 //Finished

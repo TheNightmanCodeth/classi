@@ -57,13 +57,15 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
+        //Set up realm
         Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
-
+        //Create API instance
         api = new Api(realm);
-        makeAlarms();
+        //Set up UI
         initUI();
+        //Create alarms for classes and grade due dates
+        makeAlarms();
     }
 
     @Override
@@ -92,12 +94,12 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             if (BuildConfig.DEBUG) {
+                //If build is debug, create fake classes in realm and refresh recycler
                 makeClasses();
                 refreshClasses();
             }
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initUI() {
+        //Assign onClick action to fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,35 +136,44 @@ public class MainActivity extends AppCompatActivity
                 classDialogFrag.show(getFragmentManager(), "classdialog");
             }
         });
-
+        //Nav drawer toggle listener
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        //Nav drawer menu setup
         navigationView.setNavigationItemSelectedListener(this);
         classesRecycler.setHasFixedSize(true);
+        //Set up recycler view
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         classesRecycler.setLayoutManager(layoutManager);
-
+        //Set adapter to the recyclerview
         refreshClasses();
     }
 
     public void refreshClasses() {
+        //Create adapter with classes from realm using api instance
         ClassRecycleAdapter adapter = new ClassRecycleAdapter(api.getClassesFromRealm(),
                 getApplicationContext());
+        //Set the adapter to the class recycler
         classesRecycler.setAdapter(adapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //Make sure classes are up to date
         refreshClasses();
+        //Add alarms for classes and grades
         makeAlarms();
     }
 
     private void makeAlarms() {
+        //Make alarm for each class from realm
         for (Class c : api.getClassesFromRealm()) {
+            //Make alarm for each day the class falls on
             for (char d : c.getDays().toCharArray()) {
+                //Create alarm
                 createWeeklyAlarmForDay(getApplicationContext(),
                         charToDay(d),
                         c.getName(), c.getBuilding(),
@@ -170,11 +182,13 @@ public class MainActivity extends AppCompatActivity
             }
         }
         for (Grade g : api.getGradesFromRealm()) {
+            //Create alarms for each grade from realm
             createAlarmForGrade(getApplicationContext(), g);
         }
     }
 
     protected void makeClasses() {
+        //Add fake classes to realm for debugging/testing
         List<Class> classes = new ArrayList<>();
         Class CSE = new Class();
         CSE.setName("Professional Practices and Ethics");
@@ -283,13 +297,18 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void createWeeklyAlarmForDay(Context c, int d, String name, String building, int AMPM, int hr, int min) {
+    public void createWeeklyAlarmForDay(Context c, int d, String name, String building, int AMPM,
+                                        int hr, int min) {
+        //Get alarmbootservice instance
         AlarmBootService abs = new AlarmBootService();
+        //Call createWeeklyAlarmForDay to register alarm for classes
         abs.createWeeklyAlarmForDay(c, d, name, building, AMPM, hr, min);
     }
 
     void createAlarmForGrade(Context c, Grade g) {
+        //Get alarmbootservice instance
         AlarmBootService abs = new AlarmBootService();
+        //Call createalarmforgrade to create an alert for grade
         abs.createAlarmForGrade(g, c);
     }
 }

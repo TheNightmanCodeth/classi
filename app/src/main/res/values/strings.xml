@@ -31,8 +31,8 @@
     <string name="saturday">A</string>
 
     <!-- class list -->
-    <string name="today_seperator">Today</string>
-    <string name="week_seperator">Upcoming</string>
+    <string name="today_separator">Today</string>
+    <string name="week_separator">Upcoming</string>
 
     <!-- Grade list -->
     <string name="twentyfour_hour_seperator">24 Hours</string>
