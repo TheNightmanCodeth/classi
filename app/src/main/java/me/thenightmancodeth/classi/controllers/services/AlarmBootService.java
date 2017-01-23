@@ -85,6 +85,12 @@ public class AlarmBootService extends IntentService {
         } else if (hr == 1) {
             alarmHr = "12";
         }
+
+        if (hr == 12) {
+            Log.i(name, "switching ampm from " +AMPM);
+            AMPM = AMPM == 0 ? 1 : 0;
+            Log.i(name, "to " +AMPM);
+        }
         String alarmMn = min < 10 ? "0" +min : String.valueOf(min);
         String alarmAP = AMPM == 0 ? "AM" : "PM";
         String alarmTimeString = alarmHr +":" +alarmMn +" " +alarmAP;
@@ -114,9 +120,28 @@ public class AlarmBootService extends IntentService {
     }
 
     public void createAlarmForGrade(Grade g, Context c) {
+        Grade newGrade = new Grade();
+        newGrade.setDueTime(g.getDueTime());
+        int hour = Integer.valueOf(newGrade.getDueTime().substring(0, 2));
+        if (hour == 12) {
+            Log.i(newGrade.getName(), "hour is 12");
+            String switchAMPM = newGrade.getDueTime().substring(6,8);
+            Log.e("ampm", newGrade.getDueTime().substring(6,8));
+            String time = newGrade.getDueTime();
+            if (switchAMPM.equals("AM")) {
+                String newTime = time.replace("AM", "PM");
+                newGrade.setDueTime(newTime);
+            } else if (switchAMPM.equals("PM")) {
+                String newTime = time.replace("PM", "AM");
+                newGrade.setDueTime(newTime);
+            }
+            Log.e("ampm", newGrade.getDueTime().substring(6,8));
+        }
+
         //Calculate milliseconds until alarm should sound
-        Period untilAlarm = getPeriodTo(g.getDueDate(), g.getDueTime());
+        Period untilAlarm = getPeriodTo(g.getDueDate(), newGrade.getDueTime());
         Period untilAlarmMinusOne = untilAlarm.minusHours(1);
+
         DateTime start = new DateTime();  //NOW
         DateTime end = start.plus(untilAlarmMinusOne);
         long millis = Calendar.getInstance().getTimeInMillis()
