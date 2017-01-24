@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity
         api = new Api(realm);
         //Set up UI
         initUI();
-        //Create alarms for classes and grade due dates
-        makeAlarms();
     }
 
     @Override
@@ -164,27 +162,6 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         //Make sure classes are up to date
         refreshClasses();
-        //Add alarms for classes and grades
-        makeAlarms();
-    }
-
-    private void makeAlarms() {
-        //Make alarm for each class from realm
-        for (Class c : api.getClassesFromRealm()) {
-            //Make alarm for each day the class falls on
-            for (char d : c.getDays().toCharArray()) {
-                //Create alarm
-                createWeeklyAlarmForDay(getApplicationContext(),
-                        charToDay(d),
-                        c.getName(), c.getBuilding(),
-                        c.getFromAMPM().equals("AM") ? Calendar.AM : Calendar.PM,
-                        c.getTimeFromH(), c.getTimeFromM());
-            }
-        }
-        for (Grade g : api.getGradesFromRealm()) {
-            //Create alarms for each grade from realm
-            createAlarmForGrade(getApplicationContext(), g);
-        }
     }
 
     protected void makeClasses() {
@@ -305,7 +282,7 @@ public class MainActivity extends AppCompatActivity
         abs.createWeeklyAlarmForDay(c, d, name, building, AMPM, hr, min);
     }
 
-    void createAlarmForGrade(Context c, Grade g) {
+    public void createAlarmForGrade(Context c, Grade g) {
         //Get alarmbootservice instance
         AlarmBootService abs = new AlarmBootService();
         //Call createalarmforgrade to create an alert for grade

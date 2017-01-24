@@ -129,21 +129,34 @@ public class GradeDialog extends DialogFragment {
                 thisClass.getGrades().add(newGrade);
                 realm.commitTransaction();
 
-                /*
-                 * //Create alarm
-                for (char d : days.toCharArray()) {
-                    ((MainActivity)getActivity()).createWeeklyAlarmForDay(getActivity(),
-                            charToDay(d),
-                            newClass.getName(), newClass.getBuilding(),
-                            toAMPMSpinner.getSelectedItem().toString().
-                                    equals("AM") ? Calendar.AM : Calendar.PM,
-                            newClass.getTimeFromH(), newClass.getTimeFromM());
-                } */
+                //Create alarm
+                ((MainActivity)getActivity()).createAlarmForGrade(getActivity(), newGrade);
 
                 ((ClassView)getActivity()).refreshGrades();
             }
         });
 
         return builder.create();
+    }
+
+    public static int charToDay(char d) {
+        switch (d) {
+            case 'S':
+                return Calendar.SUNDAY;
+            case 'M':
+                return Calendar.MONDAY;
+            case 'T':
+                return Calendar.TUESDAY;
+            case 'W':
+                return Calendar.WEDNESDAY;
+            case 'R':
+                return Calendar.THURSDAY;
+            case 'F':
+                return Calendar.FRIDAY;
+            case 'A':
+                return Calendar.SATURDAY;
+            default:
+                return 0;
+        }
     }
 }
