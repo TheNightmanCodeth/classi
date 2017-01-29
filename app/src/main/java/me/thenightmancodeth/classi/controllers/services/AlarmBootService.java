@@ -70,8 +70,23 @@ public class AlarmBootService extends IntentService {
 
         //Get date of alarm (todays date + days)
         int date = cal.get(Calendar.DAY_OF_MONTH) + days; //Add days to get date of alarm
-        int month = cal.get(Calendar.MONTH) + 1; //January is 0 so add 1
+        int month = cal.get(Calendar.MONTH) + 1; //January is 0 so add 1 for joda compatibility
         int year = cal.get(Calendar.YEAR); //Leave the year
+
+        if (date > DateTime.now().dayOfMonth().withMaximumValue().getDayOfMonth()) {
+            Log.i("Date", "Too big! Fixing");
+            //max: 31, this: 34; excess is 3 (this - max). Date should be next month the third
+            int max = DateTime.now().dayOfMonth().withMaximumValue().getDayOfMonth();
+            int excess = date - max;
+            //Increase month by 1 if it isn't december
+            if (month != 12) {
+                month++;
+            } else {
+                month = 1;
+            }
+            //Set date to the excess
+            date = excess;
+        }
 
         //Make string from date. If < 10 add 0 to front of int to match date formatting
         String alarmDay = date < 10 ? "0" +date : String.valueOf(date);
@@ -100,6 +115,7 @@ public class AlarmBootService extends IntentService {
         Period untilAlarm = getPeriodTo(alarmDateString, alarmTimeString);
         DateTime start = new DateTime();  //NOW
         DateTime end = start.plus(untilAlarm);
+
         long millis = Calendar.getInstance().getTimeInMillis()
                 + (end.getMillis() - start.getMillis());
         Log.i("Millis", "" +millis);
