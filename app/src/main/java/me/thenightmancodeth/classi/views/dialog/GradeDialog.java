@@ -205,7 +205,7 @@ public class GradeDialog extends DialogFragment {
                 realm.commitTransaction();
 
                 //Create alarm
-                ((MainActivity)getActivity()).createAlarmForGrade(getActivity(), newGrade);
+                ((ClassView)getActivity()).createAlarmForGrade(getActivity(), newGrade);
 
                 ((ClassView)getActivity()).refreshGrades();
             }
