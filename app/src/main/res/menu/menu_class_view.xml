@@ -11,4 +11,9 @@
         android:id="@+id/action_edit_class"
         android:title="@string/action_edit_class"
         app:showAsAction="never" />
+    <item
+        android:orderInCategory="200"
+        android:id="@+id/action_view_types"
+        android:title="@string/action_view_types"
+        app:showAsAction="never"/>
 </menu>

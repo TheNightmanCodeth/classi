@@ -23,6 +23,7 @@ import io.realm.Realm;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Class;
 import me.thenightmancodeth.classi.views.dialog.GradeDialog;
+import me.thenightmancodeth.classi.views.dialog.TypesDialog;
 import me.thenightmancodeth.classi.views.fragment.EditClassFragment;
 import me.thenightmancodeth.classi.views.fragment.GradesListFragment;
 
@@ -168,6 +169,14 @@ public class ClassView extends AppCompatActivity {
                     ft.replace(R.id.grade_list_fragment, ecf);
                     ft.commit();
                 }
+                return true;
+            case R.id.action_view_types:
+                //Show types dialog
+                DialogFragment typeDialogFrag = TypesDialog.newInstance();
+                Bundle dialogArg = new Bundle();
+                dialogArg.putString("class", className);
+                typeDialogFrag.setArguments(dialogArg);
+                typeDialogFrag.show(getFragmentManager(), "typeDialog");
                 return true;
         }
 

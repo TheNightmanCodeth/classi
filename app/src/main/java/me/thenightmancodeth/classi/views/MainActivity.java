@@ -178,14 +178,6 @@ public class MainActivity extends AppCompatActivity
         CSE.setTimeToM(50);
         CSE.setToAMPM("PM");
         CSE.setDays("MW");
-        RealmList<GradeType> types = new RealmList<>();
-        for (int i = 1; i < 11; i++) {
-            GradeType type = new GradeType();
-            type.setType("Type " +i);
-            type.setPercent(10 * i);
-            types.add(type);
-        }
-        CSE.setTypes(types);
         classes.add(CSE);
         Class ECON = new Class();
         ECON.setName("Contemporary Economic Issues");
@@ -198,14 +190,6 @@ public class MainActivity extends AppCompatActivity
         ECON.setTimeToM(45);
         ECON.setToAMPM("PM");
         ECON.setDays("MW");
-        RealmList<GradeType> types2 = new RealmList<>();
-        for (int i = 1; i < 11; i++) {
-            GradeType type = new GradeType();
-            type.setType("Type " +i);
-            type.setPercent(10 * i);
-            types2.add(type);
-        }
-        ECON.setTypes(types);
         classes.add(ECON);
         Class HIST = new Class();
         HIST.setName("Modern World History");
@@ -218,14 +202,6 @@ public class MainActivity extends AppCompatActivity
         HIST.setTimeToM(15);
         HIST.setToAMPM("PM");
         HIST.setDays("MW");
-        RealmList<GradeType> types3 = new RealmList<>();
-        for (int i = 1; i < 11; i++) {
-            GradeType type = new GradeType();
-            type.setType("Type " +i);
-            type.setPercent(10 * i);
-            types3.add(type);
-        }
-        HIST.setTypes(types);
         classes.add(HIST);
         Class SWE = new Class();
         SWE.setName("Intro to Software Engineering");
@@ -238,14 +214,7 @@ public class MainActivity extends AppCompatActivity
         SWE.setTimeToM(45);
         SWE.setToAMPM("PM");
         SWE.setDays("TR");
-        RealmList<GradeType> types4 = new RealmList<>();
-        for (int i = 1; i < 11; i++) {
-            GradeType type = new GradeType();
-            type.setType("Type " +i);
-            type.setPercent(10 * i);
-            types4.add(type);
-        }
-        SWE.setTypes(types);
+
         classes.add(SWE);
         Class ENGL = new Class();
         ENGL.setName("Early World Literature");
@@ -258,14 +227,7 @@ public class MainActivity extends AppCompatActivity
         ENGL.setTimeToM(15);
         ENGL.setToAMPM("PM");
         ENGL.setDays("TR");
-        RealmList<GradeType> types5 = new RealmList<>();
-        for (int i = 1; i < 11; i++) {
-            GradeType type = new GradeType();
-            type.setType("Type " +i);
-            type.setPercent(10 * i);
-            types5.add(type);
-        }
-        ENGL.setTypes(types);
+
         classes.add(ENGL);
         for (Class c : classes) {
             realm.beginTransaction();
