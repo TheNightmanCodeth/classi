@@ -37,10 +37,16 @@
             android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/time_from_picker"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_access_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
         <EditText
             android:id="@+id/new_class_from_time_hour"
             android:maxLength="2"
-            android:layout_marginStart="14dp"
             android:hint="@string/dialog_time_hint"
             android:inputType="number"
             android:layout_width="wrap_content"
@@ -62,7 +68,7 @@
             android:layout_height="5dp"/>
         <Spinner
             android:id="@+id/new_class_from_am_pm"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>
     <LinearLayout
@@ -75,11 +81,17 @@
             android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/time_to_picker"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_access_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
         <EditText
             android:id="@+id/new_class_to_time_hour"
             android:maxLength="2"
             android:hint="@string/dialog_time_hint"
-            android:layout_marginStart="36dp"
             android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -100,7 +112,7 @@
             android:layout_height="5dp" />
         <Spinner
             android:id="@+id/new_class_to_am_pm"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>
     <!-- Days checkboxes -->

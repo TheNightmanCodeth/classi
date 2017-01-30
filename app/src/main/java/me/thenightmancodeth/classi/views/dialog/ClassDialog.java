@@ -3,6 +3,7 @@ package me.thenightmancodeth.classi.views.dialog;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,9 +11,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +45,8 @@ public class ClassDialog extends DialogFragment {
     @BindView(R.id.new_class_to_time_hour)   EditText toHour;
     @BindView(R.id.new_class_to_time_min)    EditText toMin;
     @BindView(R.id.new_class_from_am_pm)     Spinner fromAMPMSpinner;
+    @BindView(R.id.time_from_picker)         ImageButton timeFromPickerButton;
+    @BindView(R.id.time_to_picker)           ImageButton timeToPickerButton;
     @BindView(R.id.new_class_to_am_pm)       Spinner toAMPMSpinner;
     @BindViews({R.id.check_sun, R.id.check_mon, R.id.check_tue, R.id.check_wed, R.id.check_thu, R.id.check_fri, R.id.check_sat})
     List<CheckBox> checkBoxes;
@@ -64,6 +70,78 @@ public class ClassDialog extends DialogFragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fromAMPMSpinner.setAdapter(spinnerAdapter);
         toAMPMSpinner.setAdapter(spinnerAdapter);
+
+        timeFromPickerButton.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //Get current time
+                final Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int min = c.get(Calendar.MINUTE);
+
+                //Show time picker
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                int hour = 0, ampm = 0;
+                                String min = "";
+                                if (hourOfDay > 12) {
+                                    hour = hourOfDay - 12;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 1;
+                                } else {
+                                    hour = hourOfDay;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 0;
+                                }
+                                fromHour.setText(String.valueOf(hour));
+                                fromHour.setEnabled(false);
+                                fromMin.setText(String.valueOf(min));
+                                fromMin.setEnabled(false);
+                                fromAMPMSpinner.setSelection(ampm);
+                                fromAMPMSpinner.setEnabled(false);
+                            }
+                        }, hour, min, false);
+                timePickerDialog.show();
+            }
+        });
+
+        timeToPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Get current time
+                final Calendar c = Calendar.getInstance();
+                final int hour = c.get(Calendar.HOUR_OF_DAY);
+                int min = c.get(Calendar.MINUTE);
+
+                //Show time picker
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                int hour = 0, ampm = 0;
+                                String min = "";
+                                if (hourOfDay > 12) {
+                                    hour = hourOfDay - 12;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 1;
+                                } else {
+                                    hour = hourOfDay;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 0;
+                                }
+                                toHour.setText(String.valueOf(hour));
+                                toHour.setEnabled(false);
+                                toMin.setText(String.valueOf(min));
+                                toMin.setEnabled(false);
+                                toAMPMSpinner.setSelection(ampm);
+                                toAMPMSpinner.setEnabled(false);
+                            }
+                        }, hour, min, false);
+                timePickerDialog.show();
+            }
+        });
 
         builder.setView(dialogView);
         builder.setTitle(title);
@@ -107,7 +185,7 @@ public class ClassDialog extends DialogFragment {
 
                 //Create alarm
                 for (char d : days.toCharArray()) {
-                    ((MainActivity)getActivity()).createWeeklyAlarmForDay(getActivity(),
+                    ((MainActivity) getActivity()).createWeeklyAlarmForDay(getActivity(),
                             charToDay(d),
                             newClass.getName(), newClass.getBuilding(),
                             toAMPMSpinner.getSelectedItem().toString().
@@ -115,7 +193,7 @@ public class ClassDialog extends DialogFragment {
                             newClass.getTimeFromH(), newClass.getTimeFromM());
                 }
 
-                ((MainActivity)getActivity()).refreshClasses();
+                ((MainActivity) getActivity()).refreshClasses();
             }
         });
 

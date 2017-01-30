@@ -1,13 +1,9 @@
 package me.thenightmancodeth.classi.models;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import me.thenightmancodeth.classi.controllers.ApiInterface;
 import me.thenightmancodeth.classi.models.data.Class;
