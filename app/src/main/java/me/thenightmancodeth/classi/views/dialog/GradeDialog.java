@@ -1,8 +1,10 @@
 package me.thenightmancodeth.classi.views.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,8 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +52,9 @@ public class GradeDialog extends DialogFragment {
     @BindView(R.id.dialog_grade_time_m) EditText dueMinuteET;
     @BindView(R.id.dialog_grade_types) Spinner typeSpinner;
     @BindView(R.id.dialog_grade_ampm) Spinner ampmSpinner;
+
+    @BindView(R.id.dialog_grade_date_picker) ImageButton datePicker;
+    @BindView(R.id.dialog_grade_time_picker) ImageButton timePicker;
 
     @BindString(R.string.grade_dialog_title) String title;
     @BindString(R.string.grade_dialog_submit) String submit;
@@ -93,6 +101,73 @@ public class GradeDialog extends DialogFragment {
                 android.R.layout.simple_spinner_item, typeNames);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
+
+        //Date picker
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            int month = Calendar.getInstance().get(Calendar.MONTH);
+            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month++;
+                        String d = dayOfMonth < 10 ? "0" +dayOfMonth : String.valueOf(dayOfMonth);
+                        String m = month < 10 ? "0" +month : String.valueOf(month);
+
+                        dueDayET.setText(d);
+                        dueDayET.setEnabled(false);
+                        dueMonthET.setText(m);
+                        dueMonthET.setEnabled(false);
+                        dueYearET.setText(String.valueOf(year));
+                        dueYearET.setEnabled(false);
+                    }
+                }, year, month, day);
+
+                datePickerDialog.show();
+            }
+        });
+
+        //Time picker
+        timePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                int m = Calendar.getInstance().get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                int hour = 0, ampm = 0;
+                                String min = "";
+                                if (hourOfDay > 12) {
+                                    hour = hourOfDay - 12;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 1;
+                                } else if (hourOfDay == 0) {
+                                    hour = 12;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 0;
+                                } else {
+                                    hour = hourOfDay;
+                                    min = minute < 10 ? "0" + minute : String.valueOf(minute);
+                                    ampm = 0;
+                                }
+                                dueHourET.setText(String.valueOf(hour));
+                                dueHourET.setEnabled(false);
+                                dueMinuteET.setText(String.valueOf(min));
+                                dueMinuteET.setEnabled(false);
+                                ampmSpinner.setSelection(ampm);
+                                ampmSpinner.setEnabled(false);
+                            }
+                        }, h, m, false);
+
+                timePickerDialog.show();
+            }
+        });
 
         builder.setView(dialogView);
         builder.setTitle(title);
