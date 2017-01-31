@@ -141,18 +141,21 @@ public class GradeDialog extends DialogFragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                int hour = 0, ampm = 0;
-                                String min = "";
+                                int ampm = 0;
+                                String hour = "", min = "";
                                 if (hourOfDay > 12) {
-                                    hour = hourOfDay - 12;
+                                    int diff = hourOfDay - 12;
+                                    hour = diff < 10 ? "0" +diff :
+                                           String.valueOf(diff);
                                     min = minute < 10 ? "0" + minute : String.valueOf(minute);
                                     ampm = 1;
                                 } else if (hourOfDay == 0) {
-                                    hour = 12;
+                                    hour = "12";
                                     min = minute < 10 ? "0" + minute : String.valueOf(minute);
                                     ampm = 0;
                                 } else {
-                                    hour = hourOfDay;
+                                    hour = hourOfDay < 10 ? "0" +hourOfDay :
+                                           String.valueOf(hourOfDay);
                                     min = minute < 10 ? "0" + minute : String.valueOf(minute);
                                     ampm = 0;
                                 }
@@ -205,7 +208,7 @@ public class GradeDialog extends DialogFragment {
                 realm.commitTransaction();
 
                 //Create alarm
-                ((ClassView)getActivity()).createAlarmForGrade(getActivity(), newGrade);
+                ((ClassView)getActivity()).createAlarmForGrade(newGrade);
 
                 ((ClassView)getActivity()).refreshGrades();
             }

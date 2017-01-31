@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Class;
+import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.views.dialog.GradeDialog;
 import me.thenightmancodeth.classi.views.dialog.TypesDialog;
 import me.thenightmancodeth.classi.views.fragment.EditClassFragment;
@@ -181,6 +182,11 @@ public class ClassView extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createAlarmForGrade(Grade g) {
+        MainActivity ma = new MainActivity();
+        ma.createAlarmForGrade(this, g);
     }
 
     public void refreshGrades() {
