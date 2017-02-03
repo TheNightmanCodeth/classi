@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
@@ -48,6 +49,8 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int SEPERATOR_WEEK = 1;
     private final int SEPERATOR_FIN = 2;
     private final int GRADE = 3;
+
+    private Realm realm;
 
     @BindArray(R.array.grade_edit) String[] gradeEdit;
 
@@ -88,6 +91,8 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public GradeRecycleAdapter(List<Grade> grades, Context ctx) {
         this.grades = grades;
         this.ctx = ctx;
+        Realm.init(ctx);
+        realm = Realm.getDefaultInstance();
         classifyGrades();
     }
 
@@ -164,7 +169,27 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                         break;
                                     case 1:
                                         //Complete
-
+                                        AlertDialog.Builder gradeBuilder = new
+                                                AlertDialog.Builder(ctx);
+                                        View alert = ((AppCompatActivity) ctx).getLayoutInflater()
+                                                .inflate(R.layout.alert_complete_grade, null);
+                                        final EditText gradeET = (EditText)alert
+                                                .findViewById(R.id.assign_grade_grade);
+                                        gradeBuilder.setTitle("Complete Grade")
+                                                .setView(alert)
+                                                .setPositiveButton("GRADE", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        realm.beginTransaction();
+                                                        thisOne.setGrade(Double.valueOf(gradeET
+                                                                .getText().toString()));
+                                                        thisOne.setFinished(true);
+                                                        realm.commitTransaction();
+                                                        notifyDataSetChanged();
+                                                    }
+                                                });
+                                        gradeBuilder.setNegativeButton("CANCEL", null);
+                                        gradeBuilder.create().show();
                                         break;
                                     case 2:
                                         //Delete
@@ -176,8 +201,6 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                                 new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Realm.init(ctx);
-                                                Realm realm = Realm.getDefaultInstance();
                                                 realm.beginTransaction();
                                                 thisOne.deleteFromRealm();
                                                 grades.remove(position);
@@ -219,10 +242,27 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     private void classifyGrades() {
         List<Grade> sortedGrades = new ArrayList<>();
-        //24hrs - DESC/TYPE
-        Grade seperator24 = new Grade();
+        //Finished - DESC/NAME/TYPE
+        Grade finSeperator = new Grade();
         GradeType type = new GradeType();
         type.setType(SEPERATOR_TYPE);
+        finSeperator.setDescription(SEPERATOR_DESC);
+        finSeperator.setName(SEPERATOR_NAME);
+        finSeperator.setType(type);
+        boolean sepF = true;
+        //Add all finished grades
+        for (Grade g : grades) {
+            if (g.finished) {
+                if (sepF) {
+                    sortedGrades.add(finSeperator);
+                    sepF = false;
+                }
+                sortedGrades.add(g);
+            }
+        }
+
+        //24hrs - DESC/TYPE
+        Grade seperator24 = new Grade();
         seperator24.setType(type);
         seperator24.setDescription(SEPERATOR_DESC);
         seperator24.setName("");
@@ -230,7 +270,7 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //Add all grades due in 24 hours or less
         for (Grade g : grades) {
             if (getPeriodTo(g.getDueDate(), g.getDueTime()).getDays() < 1
-                    && getPeriodTo(g.getDueDate(), g.getDueTime()).getHours() < 25) {
+                    && getPeriodTo(g.getDueDate(), g.getDueTime()).getHours() < 25 && !g.finished) {
                 if (sep24) {
                     sortedGrades.add(seperator24);
                     sep24 = false;
@@ -250,27 +290,10 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         boolean sepW = true;
         //Add all grades due in over 24 hours
         for (Grade g : grades) {
-            if (getPeriodTo(g.getDueDate(), g.getDueTime()).getDays() > 0) {
+            if (getPeriodTo(g.getDueDate(), g.getDueTime()).getDays() > 0 && !g.finished) {
                 if (sepW) {
                     sortedGrades.add(weekSeperator);
                     sepW = false;
-                }
-                sortedGrades.add(g);
-            }
-        }
-
-        //Finished - DESC/NAME/TYPE
-        Grade finSeperator = new Grade();
-        finSeperator.setDescription(SEPERATOR_DESC);
-        finSeperator.setName(SEPERATOR_NAME);
-        finSeperator.setType(type);
-        boolean sepF = true;
-        //Add all finished grades
-        for (Grade g : grades) {
-            if (g.finished) {
-                if (sepF) {
-                    sortedGrades.add(finSeperator);
-                    sepF = false;
                 }
                 sortedGrades.add(g);
             }
