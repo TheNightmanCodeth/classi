@@ -1,7 +1,12 @@
 package me.thenightmancodeth.classi.views;
 
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,15 +19,18 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
 import me.thenightmancodeth.classi.views.custom.CircleView;
+import me.thenightmancodeth.classi.views.dialog.GradeDialog;
 
 /**
  * Created by thenightman on 1/8/17.
@@ -39,6 +47,8 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int SEPERATOR_WEEK = 1;
     private final int SEPERATOR_FIN = 2;
     private final int GRADE = 3;
+
+    @BindArray(R.array.grade_edit) String[] gradeEdit;
 
     static class GradeViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.grade) CircleView grade;
@@ -134,14 +144,34 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 gradeViewHolder.bg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO: Launch activity for displaying grade
-                    }
-                });
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                        builder.setItems(R.array.grade_edit, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        //Edit
+                                        //Display grade dialog with information filled in
+                                        DialogFragment gradeDialogFrag = GradeDialog.newInstance();
+                                        Bundle dialogArg = new Bundle();
+                                        String className = ((ClassView)ctx).className;
+                                        dialogArg.putString("class", className);
+                                        dialogArg.putString("grade", thisOne.getName());
+                                        gradeDialogFrag.setArguments(dialogArg);
+                                        gradeDialogFrag.show(((AppCompatActivity)ctx)
+                                                .getFragmentManager(), "gradedialog");
+                                        break;
+                                    case 1:
+                                        //Complete
 
-                gradeViewHolder.grade.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO: Show alert for entering grade
+                                        break;
+                                    case 2:
+                                        //Delete
+                                        break;
+                                }
+                            }
+                        });
+                        builder.create().show();
                     }
                 });
         }

@@ -21,6 +21,12 @@
         <item>PM</item>
     </string-array>
 
+    <string-array name="grade_edit">
+        <item>Edit</item>
+        <item>Complete</item>
+        <item>Delete</item>
+    </string-array>
+
     <!-- days picker -->
     <string name="sunday">S</string>
     <string name="monday">M</string>
@@ -58,4 +64,5 @@
     <string name="action_edit_class">Edit</string>
     <string name="action_view_types">Grade Types</string>
     <string name="confirm_delete_dialog_negative">Cancel</string>
+    <string name="no_types_description">"Not all grades are equal! Some are worth more than others. Please add some grade types before continuing! You can add grade types by clicking the menu and selecting 'Grade Types'. Your class' grade types are usually found in the syllabus! Good luck!"</string>
 </resources>

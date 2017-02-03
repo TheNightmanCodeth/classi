@@ -58,8 +58,10 @@ public class GradeDialog extends DialogFragment {
 
     @BindString(R.string.grade_dialog_title) String title;
     @BindString(R.string.grade_dialog_submit) String submit;
+    @BindString(R.string.action_edit_class) String edit;
 
     Class thisClass;
+    Grade thisGrade;
     List<GradeType> gradeTypes = new ArrayList<>();
     Realm realm;
 
@@ -83,13 +85,21 @@ public class GradeDialog extends DialogFragment {
         Realm.init(getContext());
         realm = Realm.getDefaultInstance();
 
-        Context ctx = getActivity().getApplicationContext();
-        String className = getArguments().getString("class");
-        thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
+        if (getArguments().getString("class") != null) {
+            String className = getArguments().getString("class");
+            thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
+        }
 
-        Log.i("types", "start");
-        for (GradeType gt : thisClass.getTypes()) {
-            gradeTypes.add(gt);
+        if (getArguments().getString("grade") != null) {
+            String gradeName = getArguments().getString("grade");
+            thisGrade = realm.where(Grade.class).equalTo("name", gradeName).findFirst();
+        }
+
+        if (thisClass != null) {
+            Log.i("types", "start");
+            for (GradeType gt : thisClass.getTypes()) {
+                gradeTypes.add(gt);
+            }
         }
 
         List<String> typeNames = new ArrayList<>();
@@ -102,18 +112,45 @@ public class GradeDialog extends DialogFragment {
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
 
+        int index = 0;
+        if (thisGrade != null) {
+            for (String s : typeNames) {
+                if (s.equals(thisGrade.getType().getType())) {
+                    typeSpinner.setSelection(index);
+                } else {
+                    index++;
+                }
+            }
+
+            nameET.setText(thisGrade.getName());
+            descET.setText(thisGrade.getDescription());
+        }
+
+        final int year = thisGrade != null ? Integer.valueOf(thisGrade.getDueDate().substring(6,10)) :
+                Calendar.getInstance().get(Calendar.YEAR);
+        final int month = thisGrade != null ? Integer.valueOf(thisGrade.getDueDate().substring(0,2)) :
+                Calendar.getInstance().get(Calendar.MONTH);
+        final int day = thisGrade != null ? Integer.valueOf(thisGrade.getDueDate().substring(3,5)) :
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        if (thisGrade != null) {
+            String dayStr = day < 10 ? "0" + day : String.valueOf(day);
+            String monthStr = month < 10 ? "0" + month : String.valueOf(month);
+            dueDayET.setText(dayStr);
+            dueMonthET.setText(monthStr);
+            dueYearET.setText(String.valueOf(year));
+        }
+
         //Date picker
         datePicker.setOnClickListener(new View.OnClickListener() {
-            int year = Calendar.getInstance().get(Calendar.YEAR);
-            int month = Calendar.getInstance().get(Calendar.MONTH);
-            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
 
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month++;
+                        if (thisGrade == null) month++;
                         String d = dayOfMonth < 10 ? "0" +dayOfMonth : String.valueOf(dayOfMonth);
                         String m = month < 10 ? "0" +month : String.valueOf(month);
 
@@ -129,19 +166,37 @@ public class GradeDialog extends DialogFragment {
                 datePickerDialog.show();
             }
         });
+        if (thisGrade != null) Log.i("Time", thisGrade.getDueTime());
+        int hr = thisGrade != null ? Integer.valueOf(thisGrade.getDueTime().substring(0,2)) :
+                Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        final int m = thisGrade != null ? Integer.valueOf(thisGrade.getDueTime().substring(3,5)) :
+                Calendar.getInstance().get(Calendar.MINUTE);
 
+        int ampm = 0;
+        if (thisGrade != null) {
+            String ap = thisGrade.getDueTime().substring(6, 8);
+            if (ap.equals("PM")) {
+                ampm = 1;
+            }
+
+            String hrStr = hr < 10 ? "0" +hr : String.valueOf(hr);
+            String mnStr = m < 10 ? "0" +m : String.valueOf(m);
+            dueHourET.setText(hrStr);
+            dueMinuteET.setText(mnStr);
+            ampmSpinner.setSelection(ampm);
+        }
+
+        final int h = ampm == 1 ? hr+12 : hr;
         //Time picker
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                int m = Calendar.getInstance().get(Calendar.MINUTE);
-
+                int ampm = 0;
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                int ampm = 0;
+                                int ampm;
                                 String hour = "", min = "";
                                 if (hourOfDay > 12) {
                                     int diff = hourOfDay - 12;
@@ -174,7 +229,8 @@ public class GradeDialog extends DialogFragment {
 
         builder.setView(dialogView);
         builder.setTitle(title);
-        builder.setPositiveButton(submit, new DialogInterface.OnClickListener() {
+        String button = thisGrade != null ? edit : submit;
+        builder.setPositiveButton(button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Grade newGrade = new Grade();
@@ -202,10 +258,21 @@ public class GradeDialog extends DialogFragment {
                 newGrade.setType(type);
                 Class toRealm = thisClass;
 
-                //Commit to realm db
-                realm.beginTransaction();
-                thisClass.getGrades().add(newGrade);
-                realm.commitTransaction();
+                if (thisGrade != null) {
+                    //Edit in realm
+                    realm.beginTransaction();
+                    thisGrade.setName(nameString);
+                    thisGrade.setDescription(descString);
+                    thisGrade.setDueDate(dueDateString);
+                    thisGrade.setDueTime(dueTimeString);
+                    thisGrade.setType(type);
+                    realm.commitTransaction();
+                } else {
+                    //Commit to realm db
+                    realm.beginTransaction();
+                    thisClass.getGrades().add(newGrade);
+                    realm.commitTransaction();
+                }
 
                 //Create alarm
                 ((ClassView)getActivity()).createAlarmForGrade(newGrade);

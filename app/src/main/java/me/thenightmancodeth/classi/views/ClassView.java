@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.View;
 
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
@@ -35,6 +37,7 @@ public class ClassView extends AppCompatActivity {
     FloatingActionButton fab;
     @BindColor(R.color.colorPrimary) int green;
     @BindColor(R.color.colorAccent) int blue;
+    @BindString(R.string.no_types_description) String noTypesAlertMessage;
 
     Realm realm;
     String className;
@@ -60,14 +63,20 @@ public class ClassView extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
+
+        if (thisClass.getTypes().size() == 0) {
+            showNoTypesAlert();
+        }
+
         newGrade = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment gradeDialogFrag = GradeDialog.newInstance();
-                Bundle dialogArg = new Bundle();
-                dialogArg.putString("class", className);
-                gradeDialogFrag.setArguments(dialogArg);
-                gradeDialogFrag.show(getFragmentManager(), "gradedialog");
+                if (thisClass.getTypes().size() == 0) {
+                    showNoTypesAlert();
+                } else {
+                    showGradeDialog(null);
+                }
             }
         };
 
@@ -81,6 +90,19 @@ public class ClassView extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.grade_list_fragment, ecf);
         ft.commit();
+    }
+
+    public void showGradeDialog(@Nullable Grade g) {
+        DialogFragment gradeDialogFrag = GradeDialog.newInstance();
+        Bundle dialogArg = new Bundle();
+        dialogArg.putString("class", className);
+        if (g == null) {
+            gradeDialogFrag.setArguments(dialogArg);
+        } else {
+            dialogArg.putString("grade", g.getName());
+            gradeDialogFrag.setArguments(dialogArg);
+        }
+        gradeDialogFrag.show(getFragmentManager(), "gradedialog");
     }
 
     @Override
@@ -118,7 +140,6 @@ public class ClassView extends AppCompatActivity {
                 builder.setPositiveButton(R.string.confirm_delete_dialog_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        thisClass = realm.where(Class.class).equalTo("name", className).findFirst();
                         realm.beginTransaction();
                         thisClass.deleteFromRealm();
                         realm.commitTransaction();
@@ -187,6 +208,15 @@ public class ClassView extends AppCompatActivity {
     public void createAlarmForGrade(Grade g) {
         MainActivity ma = new MainActivity();
         ma.createAlarmForGrade(this, g);
+    }
+
+    private void showNoTypesAlert() {
+        //There's no grade types! That's not good!
+        AlertDialog.Builder noTypesBuilder = new AlertDialog.Builder(this);
+        noTypesBuilder.setTitle("Grade Types");
+        noTypesBuilder.setMessage(noTypesAlertMessage);
+        noTypesBuilder.setPositiveButton("OK", null);
+        noTypesBuilder.create().show();
     }
 
     public void refreshGrades() {
