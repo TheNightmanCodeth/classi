@@ -26,6 +26,7 @@ import java.util.List;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import me.thenightmancodeth.classi.R;
 import me.thenightmancodeth.classi.models.data.Grade;
 import me.thenightmancodeth.classi.models.data.GradeType;
@@ -114,7 +115,7 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final Grade thisOne = grades.get(position);
         switch (holder.getItemViewType()) {
             case SEPERATOR_24:
@@ -134,7 +135,7 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case GRADE:
                 GradeViewHolder gradeViewHolder = (GradeViewHolder) holder;
-                int grade = (int)thisOne.getGrade();
+                final int grade = (int)thisOne.getGrade();
                 gradeViewHolder.grade.setText(String.valueOf(grade));
                 gradeViewHolder.grade.setBackgroundColor(genColor(grade));
                 gradeViewHolder.title.setText(thisOne.getName());
@@ -144,7 +145,7 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 gradeViewHolder.bg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
                         builder.setItems(R.array.grade_edit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -167,6 +168,25 @@ public class GradeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                         break;
                                     case 2:
                                         //Delete
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ctx);
+                                        builder1.setTitle("Delete " +thisOne.getName());
+                                        builder1.setMessage("Are you sure you want to delete "
+                                                +thisOne.getName() +"?");
+                                        builder1.setPositiveButton("DELETE",
+                                                new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Realm.init(ctx);
+                                                Realm realm = Realm.getDefaultInstance();
+                                                realm.beginTransaction();
+                                                thisOne.deleteFromRealm();
+                                                grades.remove(position);
+                                                realm.commitTransaction();
+                                                notifyDataSetChanged();
+                                            }
+                                        });
+                                        builder1.setNegativeButton("CANCEL", null);
+                                        builder1.create().show();
                                         break;
                                 }
                             }
