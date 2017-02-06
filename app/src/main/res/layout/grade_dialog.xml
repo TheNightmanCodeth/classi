@@ -10,12 +10,14 @@
         android:layout_marginTop="8dp"
         android:id="@+id/dialog_grade_name"
         android:hint="@string/grade_dialog_name"
+        android:inputType="textCapWords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
         android:layout_marginTop="8dp"
         android:hint="@string/grade_dialog_desc"
         android:id="@+id/dialog_grade_desc"
+        android:inputType="textCapSentences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout

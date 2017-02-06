@@ -6,6 +6,7 @@
     <EditText
         android:id="@+id/type_title"
         android:hint="Title"
+        android:inputType="textCapWords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
