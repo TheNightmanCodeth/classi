@@ -30,7 +30,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_noti_icon)
+                .setSmallIcon(R.drawable.ic_noti)
                 .setContentTitle(title)
                 .setContentText(location)
                 .setVibrate(new long[] {1000, 1000})
