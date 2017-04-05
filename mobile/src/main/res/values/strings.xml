@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Classi</string>
+    <string name="something_went_wrong_error">Something went wrong</string>
+    <string name="swipe_to_load_label">Swipe down to refresh</string>
+</resources>
