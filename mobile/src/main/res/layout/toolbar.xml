@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:color="@color/white"
             tools:text="Toolbar Title"
             />
 
