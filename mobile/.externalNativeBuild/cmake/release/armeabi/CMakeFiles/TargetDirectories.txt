@@ -1,3 +1,3 @@
-/home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/rebuild_cache.dir
-/home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/edit_cache.dir
-/home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/native-lib.dir
+/home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/rebuild_cache.dir
+/home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/edit_cache.dir
+/home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/native-lib.dir

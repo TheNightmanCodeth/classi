@@ -1,9 +1,9 @@
 
 {
-	"buildFiles" : [ "/home/joe/AndroidStudioProjects/Classi/mobile/CMakeLists.txt" ],
+	"buildFiles" : [ "/home/joe/Documents/proj/classi/mobile/CMakeLists.txt" ],
 	"cleanCommands" : 
 	[
-		"/home/joe/Android/Sdk/cmake/3.6.3155560/bin/cmake --build /home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/debug/mips --target clean"
+		"/home/joe/Android/Sdk/cmake/3.6.3155560/bin/cmake --build /home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/debug/mips --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -12,18 +12,18 @@
 		{
 			"abi" : "mips",
 			"artifactName" : "native-lib",
-			"buildCommand" : "/home/joe/Android/Sdk/cmake/3.6.3155560/bin/cmake --build /home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/debug/mips --target native-lib",
+			"buildCommand" : "/home/joe/Android/Sdk/cmake/3.6.3155560/bin/cmake --build /home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/debug/mips --target native-lib",
 			"buildType" : "debug",
 			"files" : 
 			[
 				
 				{
 					"flags" : "  --target=mipsel-none-linux-android --gcc-toolchain=/home/joe/Android/Sdk/ndk-bundle/toolchains/mips64el-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/joe/Android/Sdk/ndk-bundle/platforms/android-15/arch-mips  -Dnative_lib_EXPORTS -isystem /home/joe/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /home/joe/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/mips/include -isystem /home/joe/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIC    -c ",
-					"src" : "/home/joe/AndroidStudioProjects/Classi/mobile/src/main/cpp/native-lib.cpp",
-					"workingDirectory" : "/home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/debug/mips"
+					"src" : "/home/joe/Documents/proj/classi/mobile/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "/home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/debug/mips"
 				}
 			],
-			"output" : "/home/joe/AndroidStudioProjects/Classi/mobile/build/intermediates/cmake/debug/obj/mips/libnative-lib.so",
+			"output" : "/home/joe/Documents/proj/classi/mobile/build/intermediates/cmake/debug/obj/mips/libnative-lib.so",
 			"toolchain" : "5249228834106745823"
 		}
 	},

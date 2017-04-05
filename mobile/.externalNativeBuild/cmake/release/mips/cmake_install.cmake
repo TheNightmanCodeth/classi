@@ -1,4 +1,4 @@
-# Install script for directory: /home/joe/AndroidStudioProjects/Classi/mobile
+# Install script for directory: /home/joe/Documents/proj/classi/mobile
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/joe/AndroidStudioProjects/Classi/mobile/.externalNativeBuild/cmake/release/mips/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/joe/Documents/proj/classi/mobile/.externalNativeBuild/cmake/release/mips/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
